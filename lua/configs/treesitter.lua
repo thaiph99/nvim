@@ -10,6 +10,10 @@ local options = {
         "vim",
         "vimdoc",
         "yaml",
+        "c",
+        "cpp",
+        "cmake",
+        "make",
     },
 
     highlight = {
