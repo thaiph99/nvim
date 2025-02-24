@@ -11,6 +11,9 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 vim.opt.wrap = false
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99
 
 local lazy_config = require "configs.lazy"
 
