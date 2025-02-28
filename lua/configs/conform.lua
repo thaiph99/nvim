@@ -11,7 +11,8 @@ local options = {
     cmake = { "cmake_format" },
     yaml = { "yamlfmt" },
     markdown = { "markdownlint" },
-    json = {"jq"}
+    json = { "jq" },
+    bazel = { "buildifier" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },

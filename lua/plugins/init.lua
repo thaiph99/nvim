@@ -31,6 +31,15 @@ return {
     end,
   },
 
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      filters = {
+        custom = { "^.git$" },
+      },
+    },
+  },
+
   -- {
   --   "hrsh7th/nvim-cmp",
   --   opts = function(_, conf)
