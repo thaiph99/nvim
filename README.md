@@ -1,9 +1,38 @@
-**This repo is supposed to used as config by NvChad users!**
 
-- The main nvchad repo (NvChad/NvChad) is used as a plugin by this repo.
-- So you just import its modules , like `require "nvchad.options" , require "nvchad.mappings"`
-- So you can delete the .git from this repo ( when you clone it locally ) or fork it :)
+# My Neovim Configuration
 
-# Credits
+This repository contains my customized NVChad configuration for Neovim. NVChad is a modern Neovim framework that provides a sleek UI, built-in plugins, and extensive customization capabilities.
 
-1) Lazyvim starter https://github.com/LazyVim/starter as nvchad's starter was inspired by Lazyvim's . It made a lot of things easier!
+## Installation
+
+### Prerequisites
+
+- Neovim (version 0.9+)
+- Git
+- A Nerd Font (for icons)
+
+### Steps
+
+```sh
+# Clone my NVChad configuration
+git clone https://github.com/thaiph99/nvim.git ~/.config/nvim --depth 1
+
+# Open Neovim (plugins will be installed automatically)
+nvim
+```
+
+## Customizations
+
+This configuration extends NVChad with the following plugins and settings:
+
+- **LSP & Completion:** Pyright, LuaLS, and custom completion settings.
+- **Theme & UI:** Custom colorschemes and status line tweaks.
+- **Keybindings:** Personalized key mappings for efficiency.
+- **Plugins:** Additional plugins for enhanced productivity.
+
+## References
+
+- [NVChad Documentation](https://nvchad.com/docs)
+- [Neovim](https://neovim.io)
+- [Lazy.nvim](https://lazy.folke.io/)
+
