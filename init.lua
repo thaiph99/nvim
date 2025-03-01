@@ -14,6 +14,13 @@ vim.opt.wrap = false
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions:remove "o"
+    vim.opt.formatoptions:remove "r"
+  end,
+})
 
 local lazy_config = require "configs.lazy"
 
