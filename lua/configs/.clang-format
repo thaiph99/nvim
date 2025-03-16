@@ -1,83 +1,65 @@
-# Google C/C++ Code Style settings
-# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
-# Author: Kehan Xue, kehan.xue (at) gmail.com
+# Google C++ Style Guide Formatting
+# Reference: https://google.github.io/styleguide/cppguide.html
 
 Language: Cpp
 BasedOnStyle: Google
-AccessModifierOffset: -1
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: None
-AlignOperands: Align
-AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: true
-AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortBlocksOnASingleLine: Empty
-AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Inline
-AllowShortIfStatementsOnASingleLine: Never  # To avoid conflict, set this "Never" and each "if statement" should include brace when coding
-AllowShortLambdasOnASingleLine: Inline
-AllowShortLoopsOnASingleLine: false
-AlwaysBreakAfterReturnType: None
-AlwaysBreakTemplateDeclarations: Yes
-BinPackArguments: true
-BreakBeforeBraces: Custom
+
+# Indentation & Spacing
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+ContinuationIndentWidth: 4
+PointerAlignment: Left
+
+# Brace Wrapping
 BraceWrapping:
-  AfterCaseLabel: false
-  AfterClass: false
-  AfterStruct: false
-  AfterControlStatement: Never
-  AfterEnum: false
-  AfterFunction: false
-  AfterNamespace: false
-  AfterUnion: false
-  AfterExternBlock: false
-  BeforeCatch: false
-  BeforeElse: false
-  BeforeLambdaBody: false
-  IndentBraces: false
-  SplitEmptyFunction: false
-  SplitEmptyRecord: false
-  SplitEmptyNamespace: false
+  AfterCaseLabel: false      # No extra brace wrapping after a `case` label.
+  AfterClass: false          # `{` stays on the same line as `class` declaration.
+  AfterStruct: false         # `{` stays on the same line as `struct` declaration.
+  AfterControlStatement: Never  # `if`, `for`, `while`, etc., keep `{` on the same line.
+  AfterEnum: false           # `{` stays on the same line as `enum` declaration.
+  AfterFunction: false       # `{` stays on the same line as function definition.
+  AfterNamespace: false      # `{` stays on the same line as `namespace` declaration.
+  AfterUnion: false          # `{` stays on the same line as `union` declaration.
+  AfterExternBlock: false    # `{` stays on the same line as `extern "C"` block.
+  BeforeCatch: false         # `catch` stays on the same line as `}` from `try` block.
+  BeforeElse: false          # `else` stays on the same line as `}` from `if` block.
+  BeforeLambdaBody: false    # `{` stays on the same line as `[]() {` in lambdas.
+  IndentBraces: false        # Braces are **not** separately indented.
+  SplitEmptyFunction: false  # `{}` for empty functions is kept on **one line**.
+  SplitEmptyRecord: false    # `{}` for empty classes/structs/unions is kept on **one line**.
+  SplitEmptyNamespace: false # `{}` for empty namespaces is kept on **one line**.
+
+# Control Statements Formatting
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortBlocksOnASingleLine: Empty
+BreakBeforeBraces: Attach
+
+# Line Wrapping & Formatting
+ColumnLimit: 120
 BreakBeforeBinaryOperators: None
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: BeforeColon
-BreakInheritanceList: BeforeColon
-ColumnLimit: 120
-CompactNamespaces: false
-ContinuationIndentWidth: 2
-Cpp11BracedListStyle: true
-DerivePointerAlignment: false  # Make sure the * or & align on the left
-EmptyLineBeforeAccessModifier: LogicalBlock
-FixNamespaceComments: true
-IncludeBlocks: Preserve
+AlwaysBreakTemplateDeclarations: Yes
+
+# Class & Namespace Formatting
 IndentCaseLabels: true
-IndentPPDirectives: None
-IndentWidth: 2
-KeepEmptyLinesAtTheStartOfBlocks: true
-MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
-ObjCSpaceAfterProperty: false
-ObjCSpaceBeforeProtocolList: true
-PointerAlignment: Left
-ReflowComments: false
-# SeparateDefinitionBlocks: Always   # Only support since clang-format 14
-SpaceAfterCStyleCast: false
-SpaceAfterLogicalNot: false
-SpaceAfterTemplateKeyword: true
-SpaceBeforeAssignmentOperators: true
-SpaceBeforeCpp11BracedList: false
-SpaceBeforeCtorInitializerColon: true
-SpaceBeforeInheritanceColon: true
+AccessModifierOffset: -1
+EmptyLineBeforeAccessModifier: LogicalBlock
+
+# Function & Parameter Formatting
+AlwaysBreakAfterReturnType: None
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: true
+
+# Miscellaneous
 SpaceBeforeParens: ControlStatements
-SpaceBeforeRangeBasedForLoopColon: true
-SpaceBeforeSquareBrackets: false
-SpaceInEmptyParentheses: false
+ReflowComments: false
 SpacesBeforeTrailingComments: 2
-SpacesInAngles: false
-SpacesInCStyleCastParentheses: false
-SpacesInContainerLiterals: false
 SpacesInParentheses: false
-SpacesInSquareBrackets: false
-Standard: c++11
-TabWidth: 2
-UseTab: Never
+SpacesInAngles: false
+SpacesInContainerLiterals: false
+DerivePointerAlignment: false
