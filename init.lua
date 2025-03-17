@@ -11,7 +11,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 vim.opt.wrap = false
-vim.opt.foldmethod = "expr"
+vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 vim.api.nvim_create_autocmd("BufEnter", {
