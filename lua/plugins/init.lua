@@ -55,8 +55,8 @@ return {
     config = function()
       require("illuminate").configure {
         providers = { "lsp", "treesitter", "regex" },
-        deplay = 100,
-        filetypes_denylist = { "NvimTree", "TelescopePromt" },
+        delay = 100,
+        filetypes_denylist = { "NvimTree", "TelescopePrompt" },
         modes_allowlist = { "n", "v" },
       }
       vim.cmd "hi IlluminatedWordRead guibg=#525252"
