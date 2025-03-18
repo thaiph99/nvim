@@ -49,6 +49,22 @@ return {
     end,
   },
 
+  {
+    "RRethy/vim-illuminate",
+    lazy = false,
+    config = function()
+      require("illuminate").configure {
+        providers = { "lsp", "treesitter", "regex" },
+        deplay = 100,
+        filetypes_denylist = { "NvimTree", "TelescopePromt" },
+        modes_allowlist = { "n", "v" },
+      }
+      vim.cmd "hi IlluminatedWordRead guibg=#525252"
+      vim.cmd "hi IlluminatedWordText guibg=#525252"
+      vim.cmd "hi IlluminatedWordWrite guibg=#525252"
+    end,
+  },
+
   -- {
   --   "hrsh7th/nvim-cmp",
   --   opts = function(_, conf)
