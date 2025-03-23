@@ -55,7 +55,7 @@ return {
     config = function()
       require("illuminate").configure {
         providers = { "lsp", "treesitter", "regex" },
-        delay = 100,
+        delay = 300,
         filetypes_denylist = { "NvimTree", "TelescopePrompt" },
         modes_allowlist = { "n", "v" },
       }
