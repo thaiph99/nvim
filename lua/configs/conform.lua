@@ -1,9 +1,6 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
-    c_cpp = { "clang-format" },
-    cpp = { "clang-format" },
-    c = { "clang-format" },
     python = { "isort", "black" },
     go = { "goimports", "gofmt" },
     sh = { "shfmt" },
@@ -13,6 +10,9 @@ local options = {
     markdown = { "markdownlint" },
     json = { "jq" },
     bazel = { "buildifier" },
+    -- c_cpp = { "clang-format" },
+    -- cpp = { "clang-format" },
+    -- c = { "clang-format" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
