@@ -1,6 +1,7 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
+local telescope = require "telescope.builtin"
 
 local servers = { "html", "cssls", "pyright", "clangd", "gopls" }
 local nvlsp = require "nvchad.configs.lspconfig"
@@ -8,12 +9,8 @@ local nvlsp = require "nvchad.configs.lspconfig"
 -- Change lsp.buf.references to telescope.builtin.lsp_references
 local remapping = function(client, bufnr)
   nvlsp.on_attach(client, bufnr)
-  vim.keymap.set(
-    "n",
-    "gr",
-    "<cmd>Telescope lsp_references<cr>",
-    { buffer = bufnr, desc = "Telescope lsp go to references" }
-  )
+  vim.keymap.set("n", "gr", telescope.lsp_references, { buffer = bufnr, desc = "Telescope lsp go to references" })
+  vim.keymap.set("n", "gd", telescope.lsp_definitions, { buffer = bufnr, desc = "Telescope lsp go to definitions" })
 end
 
 for _, lsp in ipairs(servers) do
