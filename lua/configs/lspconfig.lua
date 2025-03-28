@@ -3,7 +3,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 local telescope = require "telescope.builtin"
 
-local servers = { "html", "cssls", "pyright", "clangd", "gopls" }
+local servers = { "html", "cssls", "pyright", "clangd", "gopls", "lua_ls" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- Change lsp.buf.references to telescope.builtin.lsp_references
