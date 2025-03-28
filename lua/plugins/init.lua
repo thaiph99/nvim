@@ -76,6 +76,12 @@ return {
       window = {
         width = 0.4,
       },
+      mappings = {
+        reset = {
+          normal = "<C-e>",
+          insert = "<C-e>",
+        },
+      },
     },
     -- See Commands section for default commands if you want to lazy load on them
   },
