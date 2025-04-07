@@ -71,27 +71,74 @@ return {
       vim.cmd "hi IlluminatedWordWrite guibg=#525252"
     end,
   },
+
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   event = "VeryLazy",
+  --   dependencies = {
+  --     { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
+  --     { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+  --   },
+  --   build = "make tiktoken", -- Only on MacOS or Linux
+  --   opts = {
+  --     window = {
+  --       width = 0.4,
+  --     },
+  --     mappings = {
+  --       reset = {
+  --         normal = "<C-e>",
+  --         insert = "<C-e>",
+  --       },
+  --     },
+  --   },
+  --   -- See Commands section for default commands if you want to lazy load on them
+  -- },
+
   {
-    "CopilotC-Nvim/CopilotChat.nvim",
+    "yetone/avante.nvim",
     event = "VeryLazy",
-    dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
+    version = false, -- Never set this value to "*"! Never!
     opts = {
-      window = {
-        width = 0.4,
-      },
-      mappings = {
-        reset = {
-          normal = "<C-e>",
-          insert = "<C-e>",
+      provider = "copilot",
+    },
+    build = "make",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- optional,
+      "echasnovski/mini.pick", -- for file_selector provider mini.pick
+      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      "zbirenbaum/copilot.lua", -- for providers='copilot'
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+          },
         },
       },
+      {
+        -- Make sure to set this up properly if you have lazy=true
+        'MeanderingProgrammer/render-markdown.nvim',
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
     },
-    -- See Commands section for default commands if you want to lazy load on them
-  },
+  }
 
   -- {
   --   "hrsh7th/nvim-cmp",
