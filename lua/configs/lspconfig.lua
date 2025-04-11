@@ -22,6 +22,8 @@ for _, lsp in ipairs(servers) do
 
   if lsp == "pyright" then
     config.root_dir = lspconfig.util.root_pattern(".git", "requirements.txt")
+  elseif lsp == "clangd" then
+    config.root_dir = lspconfig.util.root_pattern "."
   end
   lspconfig[lsp].setup(config)
 end
