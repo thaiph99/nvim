@@ -33,11 +33,7 @@ return {
 
   {
     "nvim-tree/nvim-tree.lua",
-    opts = {
-      filters = {
-        custom = { "^.git$" },
-      },
-    },
+    opts = require "configs.nvim-tree",
   },
 
   {
