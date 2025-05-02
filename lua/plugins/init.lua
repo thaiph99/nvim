@@ -96,6 +96,10 @@ return {
     version = false, -- Never set this value to "*"! Never!
     opts = {
       provider = "copilot",
+      cursor_applying_provider = 'copilot',
+      behaviour = {
+        enable_cursor_planning_mode = true,
+      },
     },
     build = "make",
     dependencies = {
@@ -136,6 +140,10 @@ return {
     },
   },
 
+  {
+    "tpope/vim-fugitive",
+    event = "VeryLazy",
+  },
   -- {
   --   "hrsh7th/nvim-cmp",
   --   opts = function(_, conf)
