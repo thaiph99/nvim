@@ -99,7 +99,41 @@ return {
       copilot = {
         model = "claude-3.7-sonnet",
       },
-      cursor_applying_provider = 'copilot',
+      vendors = {
+        copilot_claude_37 = {
+          __inherited_from = "copilot",
+          model = "claude-3.7-sonnet",
+        },
+        copilot_claude_35 = {
+          __inherited_from = "copilot",
+          model = "claude-3.5-sonnet",
+        },
+        copilot_o3 = {
+          __inherited_from = "copilot",
+          model = "o3-2025-04-16",
+        },
+        copilot_gpt_45_preview = {
+          __inherited_from = "copilot",
+          model = "gpt-4.5-preview-2025-02-27",
+        },
+        copilot_gpt_41 = {
+          __inherited_from = "copilot",
+          model = "gpt-4.1-2025-04-14",
+        },
+        copilot_gpt_4o = {
+          __inherited_from = "copilot",
+          model = "gpt-4o-2024-11-20",
+        },
+        copilot_gemini_preview = {
+          __inherited_from = "copilot",
+          model = "gemini-2.5-pro-preview-05-06",
+        },
+        copilot_gemini_flash = {
+          __inherited_from = "copilot",
+          model = "gemini-2.0-flash",
+        },
+      },
+      cursor_applying_provider = "copilot",
       behaviour = {
         enable_cursor_planning_mode = true,
       },
