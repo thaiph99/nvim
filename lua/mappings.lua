@@ -46,3 +46,27 @@ map("v", "<leader>fw", function()
     telescope.live_grep { default_text = text }
   end
 end, { desc = "Live grep selected word", silent = true })
+
+-- Telescope LSP keymaps override
+vim.defer_fn(function()
+  local ok, telescope = pcall(require, "telescope.builtin")
+  if not ok or not telescope then return end
+  
+  -- Remove conflicting default LSP keymaps
+  pcall(vim.keymap.del, "n", "grr")
+  pcall(vim.keymap.del, "n", "gri")
+  pcall(vim.keymap.del, "n", "gra")
+  pcall(vim.keymap.del, "n", "grn")
+  
+  -- Set telescope LSP keymaps
+  local opts = { silent = true, noremap = true }
+  if telescope.lsp_references then
+    vim.keymap.set("n", "gr", telescope.lsp_references, vim.tbl_extend("force", opts, { desc = "Telescope LSP references" }))
+  end
+  if telescope.lsp_definitions then
+    vim.keymap.set("n", "gd", telescope.lsp_definitions, vim.tbl_extend("force", opts, { desc = "Telescope LSP definitions" }))
+  end
+  if telescope.lsp_implementations then
+    vim.keymap.set("n", "gi", telescope.lsp_implementations, vim.tbl_extend("force", opts, { desc = "Telescope LSP implementations" }))
+  end
+end, 1000)
