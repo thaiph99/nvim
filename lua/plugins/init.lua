@@ -149,6 +149,40 @@ return {
     "tpope/vim-fugitive",
     event = "VeryLazy",
   },
+
+  {
+    "kawre/leetcode.nvim",
+    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "ibhagwan/fzf-lua",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    lazy = "leetcode.nvim" ~= vim.fn.argv(0, -1),
+    opts = {
+      arg = "leetcode.nvim",
+      injector = {
+        ["cpp"] = {
+          before = {
+            "#include <bits/stdc++.h>",
+            "using namespace std;",
+          },
+        },
+      },
+    },
+  },
+
+  {
+    "goolord/alpha-nvim",
+    event = "VimEnter",
+    enabled = true,
+    init = false,
+    config = function()
+      require "configs.alpha"
+    end,
+  },
+  --
   -- {
   --   "hrsh7th/nvim-cmp",
   --   opts = function(_, conf)
