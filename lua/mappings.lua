@@ -6,6 +6,7 @@ map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
 
 -- Copilot Suggestion Acceptance Key
 map("i", "<C-l>", function()
@@ -50,23 +51,40 @@ end, { desc = "Live grep selected word", silent = true })
 -- Telescope LSP keymaps override
 vim.defer_fn(function()
   local ok, telescope = pcall(require, "telescope.builtin")
-  if not ok or not telescope then return end
-  
+  if not ok or not telescope then
+    return
+  end
+
   -- Remove conflicting default LSP keymaps
   pcall(vim.keymap.del, "n", "grr")
   pcall(vim.keymap.del, "n", "gri")
   pcall(vim.keymap.del, "n", "gra")
   pcall(vim.keymap.del, "n", "grn")
-  
+
   -- Set telescope LSP keymaps
   local opts = { silent = true, noremap = true }
   if telescope.lsp_references then
-    vim.keymap.set("n", "gr", telescope.lsp_references, vim.tbl_extend("force", opts, { desc = "Telescope LSP references" }))
+    vim.keymap.set(
+      "n",
+      "gr",
+      telescope.lsp_references,
+      vim.tbl_extend("force", opts, { desc = "Telescope LSP references" })
+    )
   end
   if telescope.lsp_definitions then
-    vim.keymap.set("n", "gd", telescope.lsp_definitions, vim.tbl_extend("force", opts, { desc = "Telescope LSP definitions" }))
+    vim.keymap.set(
+      "n",
+      "gd",
+      telescope.lsp_definitions,
+      vim.tbl_extend("force", opts, { desc = "Telescope LSP definitions" })
+    )
   end
   if telescope.lsp_implementations then
-    vim.keymap.set("n", "gi", telescope.lsp_implementations, vim.tbl_extend("force", opts, { desc = "Telescope LSP implementations" }))
+    vim.keymap.set(
+      "n",
+      "gi",
+      telescope.lsp_implementations,
+      vim.tbl_extend("force", opts, { desc = "Telescope LSP implementations" })
+    )
   end
 end, 1000)
