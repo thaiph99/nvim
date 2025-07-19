@@ -49,42 +49,55 @@ map("v", "<leader>fw", function()
 end, { desc = "Live grep selected word", silent = true })
 
 -- Telescope LSP keymaps override
-vim.defer_fn(function()
-  local ok, telescope = pcall(require, "telescope.builtin")
-  if not ok or not telescope then
-    return
-  end
+-- Create an autocmd to override LSP keymaps after they are set
 
-  -- Remove conflicting default LSP keymaps
-  pcall(vim.keymap.del, "n", "grr")
-  pcall(vim.keymap.del, "n", "gri")
-  pcall(vim.keymap.del, "n", "gra")
-  pcall(vim.keymap.del, "n", "grn")
+pcall(vim.keymap.del, "n", "grr")
+pcall(vim.keymap.del, "n", "grt")
+pcall(vim.keymap.del, "n", "gri")
+pcall(vim.keymap.del, "n", "gra")
+pcall(vim.keymap.del, "n", "grn")
 
-  -- Set telescope LSP keymaps
-  local opts = { silent = true, noremap = true }
-  if telescope.lsp_references then
-    vim.keymap.set(
-      "n",
-      "gr",
-      telescope.lsp_references,
-      vim.tbl_extend("force", opts, { desc = "Telescope LSP references" })
-    )
-  end
-  if telescope.lsp_definitions then
-    vim.keymap.set(
-      "n",
-      "gd",
-      telescope.lsp_definitions,
-      vim.tbl_extend("force", opts, { desc = "Telescope LSP definitions" })
-    )
-  end
-  if telescope.lsp_implementations then
-    vim.keymap.set(
-      "n",
-      "gi",
-      telescope.lsp_implementations,
-      vim.tbl_extend("force", opts, { desc = "Telescope LSP implementations" })
-    )
-  end
-end, 1000)
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("TelescopeLspKeymaps", { clear = true }),
+  callback = function(event)
+    local bufnr = event.buf
+    local ok, telescope = pcall(require, "telescope.builtin")
+    if not ok or not telescope then
+      return
+    end
+
+    -- Wait a bit to ensure all other keymaps are set first
+    vim.defer_fn(function()
+      -- Override LSP keymaps with telescope equivalents
+      local opts = { buffer = bufnr, silent = true, noremap = true }
+
+      vim.keymap.set(
+        "n",
+        "gd",
+        telescope.lsp_definitions,
+        vim.tbl_extend("force", opts, { desc = "Telescope LSP definitions" })
+      )
+
+      vim.keymap.set(
+        "n",
+        "gD",
+        telescope.lsp_type_definitions,
+        vim.tbl_extend("force", opts, { desc = "Telescope LSP type definitions" })
+      )
+
+      vim.keymap.set(
+        "n",
+        "gr",
+        telescope.lsp_references,
+        vim.tbl_extend("force", opts, { desc = "Telescope LSP references" })
+      )
+
+      vim.keymap.set(
+        "n",
+        "gi",
+        telescope.lsp_implementations,
+        vim.tbl_extend("force", opts, { desc = "Telescope LSP implementations" })
+      )
+    end, 100) -- Wait 100ms after LSP attach
+  end,
+})
