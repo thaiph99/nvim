@@ -58,6 +58,9 @@ dofile(vim.g.base46_cache .. "statusline")
 require "options"
 require "nvchad.autocmds"
 
+-- Setup automatic clang-format indentation detection
+require("configs.clang-format-indent")
+
 vim.schedule(function()
   require "mappings"
 end)
