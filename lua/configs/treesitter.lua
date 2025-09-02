@@ -14,6 +14,9 @@ local options = {
     "cpp",
     "cmake",
     "make",
+    "typescript",
+    "javascript",
+    "java",
   },
 
   highlight = {
