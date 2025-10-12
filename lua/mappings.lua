@@ -13,9 +13,9 @@ map("i", "<C-l>", function()
   vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
 end, { desc = "Copilot Accept", noremap = true, silent = true })
 
--- telescope live_grep with select word
+-- telescope with selected word helper function
 local telescope = require "telescope.builtin"
-map("v", "<leader>fw", function()
+local function get_selected_text()
   local v_start = vim.fn.getpos "v"
   local v_end = vim.fn.getpos "."
 
@@ -33,7 +33,7 @@ map("v", "<leader>fw", function()
   end
 
   if #lines == 0 then
-    return
+    return ""
   end
   lines[1] = lines[1]:sub(cs, -1)
   if #lines == 1 then
@@ -42,11 +42,32 @@ map("v", "<leader>fw", function()
     lines[#lines] = lines[#lines]:sub(1, ce)
   end
 
-  local text = table.concat(lines, " ")
+  return table.concat(lines, " ")
+end
+
+-- telescope live_grep with selected word
+map("v", "<leader>fw", function()
+  local text = get_selected_text()
   if text ~= "" then
     telescope.live_grep { default_text = text }
   end
 end, { desc = "Live grep selected word", silent = true })
+
+-- telescope find files with selected word
+map("v", "<leader>ff", function()
+  local text = get_selected_text()
+  if text ~= "" then
+    telescope.find_files { default_text = text }
+  end
+end, { desc = "Find files with selected word", silent = true })
+
+-- telescope find all files with selected word
+map("v", "<leader>fa", function()
+  local text = get_selected_text()
+  if text ~= "" then
+    telescope.find_files { default_text = text, follow=true, no_ignore=true, hidden=true }
+  end
+end, { desc = "Find files with selected word", silent = true })
 
 -- Telescope LSP keymaps override
 -- Create an autocmd to override LSP keymaps after they are set
