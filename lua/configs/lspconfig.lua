@@ -1,20 +1,33 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
-local servers = { "html", "cssls", "pyright", "clangd", "gopls", "lua_ls", "ts_ls" }
-local nvlsp = require "nvchad.configs.lspconfig"
+local servers = {
+  html = {},
+  cssls = {},
+  pyright = {
+    root_marker = { "requirements.txt", ".git" },
+  },
+  clangd = {
+    cmd_env = {
+      CPLUS_INCLUDE_PATH = table.concat({
+        "/usr/include/c++/11",
+        "/usr/include/x86_64-linux-gnu/c++/11",
+        "/usr/include/c++/11/backward",
+        "/usr/lib/gcc/x86_64-linux-gnu/11/include",
+        "/usr/local/include",
+        "/usr/lib/gcc/x86_64-linux-gnu/11/include-fixed",
+        "/usr/include/x86_64-linux-gnu",
+        "/usr/include",
+      }, ":"),
+    },
+    root_marker = { "." },
+  },
+  gopls = {},
+  lua_ls = {},
+  ts_ls = {},
+}
 
-for _, lsp in ipairs(servers) do
-  local config = {
-    on_attach = nvlsp.on_attach,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
-
-  if lsp == "pyright" then
-    config.root_dir = lspconfig.util.root_pattern(".git", "requirements.txt")
-  elseif lsp == "clangd" then
-    config.root_dir = lspconfig.util.root_pattern "."
-  end
-  lspconfig[lsp].setup(config)
+for name, opts in pairs(servers) do
+  vim.lsp.config(name, opts)
+  vim.lsp.enable(name)
 end
