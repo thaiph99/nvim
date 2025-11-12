@@ -7,6 +7,9 @@ map("i", "jk", "<ESC>")
 
 map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
+map("n", "<leader>d", function()
+  vim.diagnostic.open_float(nil, { scope = "line" })
+end, { desc = "Open diagnostic float" })
 
 -- Copilot Suggestion Acceptance Key
 map("i", "<C-l>", function()
@@ -65,7 +68,7 @@ end, { desc = "Find files with selected word", silent = true })
 map("v", "<leader>fa", function()
   local text = get_selected_text()
   if text ~= "" then
-    telescope.find_files { default_text = text, follow=true, no_ignore=true, hidden=true }
+    telescope.find_files { default_text = text, follow = true, no_ignore = true, hidden = true }
   end
 end, { desc = "Find files with selected word", silent = true })
 
