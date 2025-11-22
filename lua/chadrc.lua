@@ -59,4 +59,42 @@ M.term = {
   },
 }
 
+M.nvdash = {
+  load_on_startup = true,
+  header = {
+    "███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗",
+    "████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║",
+    "██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║",
+    "██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+    "██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║",
+    "╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝",
+    "",
+    "",
+    "",
+    "",
+  },
+  buttons = {
+    { txt = " Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
+    { txt = " New file", keys = "e", cmd = "ene | startinsert" },
+    { txt = " Find file", keys = "f", cmd = "Telescope find_files" },
+    { txt = " Open Config (~/.config/nvim)", keys = "c", cmd = "e ~/.config/nvim" },
+    { txt = " Lazy Plugin Manager", keys = "l", cmd = "Lazy" },
+    { txt = " Mason Package Manager", keys = "m", cmd = "Mason" },
+    { txt = " Quit Neovim", keys = "q", cmd = "qa" },
+    { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+    {
+      txt = function()
+        local stats = require("lazy").stats()
+        local ms = math.floor(stats.startuptime) .. " ms"
+        return "  Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms
+      end,
+      hl = "NvDashFooter",
+      no_gap = true,
+      content = "fit",
+    },
+
+    { txt = "─", hl = "NvDashFooter", no_gap = true, rep = true },
+  },
+}
+
 return M
