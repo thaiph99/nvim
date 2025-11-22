@@ -9,6 +9,7 @@ local options = {
     yaml = { "prettier" },
     markdown = { "markdownlint" },
     json = { "prettier" },
+    java = { "google-java-format" },
     bazel = { "buildifier" },
     -- c_cpp = { "clang-format" },
     -- cpp = { "clang-format" },

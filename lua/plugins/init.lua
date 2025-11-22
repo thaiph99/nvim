@@ -12,7 +12,6 @@ return {
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -135,7 +134,6 @@ return {
         },
       },
       {
-        -- Make sure to set this up properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
           file_types = { "markdown", "Avante" },
@@ -145,10 +143,10 @@ return {
     },
   },
 
-  {
-    "tpope/vim-fugitive",
-    event = "VeryLazy",
-  },
+  -- {
+  --   "tpope/vim-fugitive",
+  --   event = "VeryLazy",
+  -- },
 
   {
     "kawre/leetcode.nvim",
@@ -173,38 +171,31 @@ return {
     },
   },
 
-  {
-    "goolord/alpha-nvim",
-    event = "VimEnter",
-    enabled = true,
-    init = false,
-    config = function()
-      require "configs.alpha"
-    end,
-  },
-  --
   -- {
-  --   "hrsh7th/nvim-cmp",
-  --   opts = function(_, conf)
-  --     conf.mapping["<TAB>"] = conf.mapping(function(fallback)
-  --       if conf.visible() then
-  --         conf.select_next_item { behavior = conf.SelectBehavior.Insert }
-  --         conf.mapping.confirm { select = true }
-  --       else
-  --         fallback()
-  --       end
-  --     end, { "i", "s" })
-  --     return conf
+  --   "goolord/alpha-nvim",
+  --   event = "VimEnter",
+  --   enabled = true,
+  --   init = false,
+  --   config = function()
+  --     require "configs.alpha"
   --   end,
   -- },
 
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      vim.g.db_ui_win_position = "right"
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
 }
