@@ -21,30 +21,31 @@ M.base46 = {
 --      }
 --}
 
-vim.cmd "highlight St_relativepath guifg=#bbbbbb guibg=#2a2b36"
+local get_path = function()
+  local icon = "󰈚"
+  local path = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0))
+  local path_s = vim.fn.expand "%:.:"
+  local name = (path == "" and "Empty") or path:match "([^/\\]+)[/\\]*$"
 
-local stbufnr = function()
-  return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
+  if name ~= "Empty" then
+    local devicons_present, devicons = pcall(require, "nvim-web-devicons")
+    if devicons_present then
+      local ft_icon = devicons.get_icon(name)
+      icon = (ft_icon ~= nil and ft_icon) or icon
+    end
+  end
+
+  return { icon, path_s }
 end
 
 M.ui = {
   statusline = {
     theme = "vscode_colored",
-    order = { "mode", "relativepath", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
-    hl_add = {
-      St_relativepath = {
-        bg = "black2",
-      },
-    },
+    order = { "mode", "file_path", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
     modules = {
-      relativepath = function()
-        local path = vim.api.nvim_buf_get_name(stbufnr())
-
-        if path == "" then
-          return ""
-        end
-
-        return "%#St_relativepath# " .. vim.fn.expand "%:.:h" .. "/"
+      file_path = function()
+        local x = get_path()
+        return "%#StText# " .. x[1] .. " " .. x[2] .. " "
       end,
     },
   },
