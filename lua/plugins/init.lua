@@ -160,6 +160,7 @@ return {
     lazy = "leetcode.nvim" ~= vim.fn.argv(0, -1),
     opts = {
       arg = "leetcode.nvim",
+      picker = { provider = "telescope" },
       injector = {
         ["cpp"] = {
           before = {
