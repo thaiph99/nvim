@@ -21,31 +21,36 @@ M.base46 = {
 --      }
 --}
 
-local get_path = function()
-  local icon = "󰈚"
-  local path = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0))
-  local path_s = vim.fn.expand "%:.:"
-  local name = (path == "" and "Empty") or path:match "([^/\\]+)[/\\]*$"
+local format_language = function(bufnr)
+  bufnr = bufnr ~= 0 and bufnr or vim.api.nvim_get_current_buf()
 
-  if name ~= "Empty" then
-    local devicons_present, devicons = pcall(require, "nvim-web-devicons")
-    if devicons_present then
-      local ft_icon = devicons.get_icon(name)
-      icon = (ft_icon ~= nil and ft_icon) or icon
-    end
+  local lang
+  local ok, parsers = pcall(require, "nvim-treesitter.parsers")
+  if ok then
+    lang = parsers.get_buf_lang(bufnr)
   end
 
-  return { icon, path_s }
+  lang = lang or vim.bo[bufnr].filetype
+  if not lang or lang == "" then
+    return "Plaintext"
+  end
+
+  local words = {}
+  for word in lang:gmatch "[^_%-%.]+" do
+    words[#words + 1] = word:sub(1, 1):upper() .. word:sub(2)
+  end
+
+  return #words > 0 and table.concat(words, " ") or lang
 end
 
 M.ui = {
   statusline = {
     theme = "vscode_colored",
-    order = { "mode", "file_path", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lang", "cwd", "cursor" },
     modules = {
-      file_path = function()
-        local x = get_path()
-        return "%#StText# " .. x[1] .. " " .. x[2] .. " "
+      lang = function()
+        local lang = format_language(vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0))
+        return "%#St_Lsp# " .. lang .. " "
       end,
     },
   },
