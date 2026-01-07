@@ -5,14 +5,30 @@ local map = vim.keymap.set
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 
-map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+map({ "n", "i", "v" }, "<C-s", "<cmd> w <cr>")
+
+-- use Alt instead of Ctrl for some common commands
+map({ "n" }, "<A-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
+map({ "n" }, "<A-o>", "<C-o>", { desc = "Jump Backward" })
+
+map({ "n" }, "<A-d>", "<C-d>", { desc = "PageDown" })
+map({ "n" }, "<A-u>", "<C-u>", { desc = "PageUp" })
+
+map({ "n" }, "<A-r>", "<C-r>", { desc = "Redo" })
+
+vim.keymap.del("n", "<A-h>")
+map("n", "<A-h>", "<C-w>h", { desc = "switch window left" })
+map("n", "<A-l>", "<C-w>l", { desc = "switch window right" })
+map("n", "<A-j>", "<C-w>j", { desc = "switch window down" })
+map("n", "<A-k>", "<C-w>k", { desc = "switch window up" })
+
 map("n", "<leader>d", function()
   vim.diagnostic.open_float(nil, { scope = "line" })
 end, { desc = "Open diagnostic float" })
 
 -- Copilot Suggestion Acceptance Key
-map("i", "<C-l>", function()
+map("i", "<A-l>", function()
   vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
 end, { desc = "Copilot Accept", noremap = true, silent = true })
 
