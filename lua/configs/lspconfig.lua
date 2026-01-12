@@ -4,7 +4,7 @@ local servers = {
   html = {},
   cssls = {},
   pyright = {
-    root_marker = { "requirements.txt", ".git" },
+    root_markers = { "requirements.txt", ".git" },
   },
   clangd = {
     cmd_env = {
