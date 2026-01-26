@@ -37,9 +37,12 @@ return {
 
   {
     "lewis6991/gitsigns.nvim",
-    opts = {
-      current_line_blame = true,
-    },
+    event = "User FilePost",
+    opts = function()
+      local opts = require "nvchad.configs.gitsigns"
+      opts.current_line_blame = true
+      return opts
+    end,
   },
 
   {
