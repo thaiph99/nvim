@@ -12,8 +12,8 @@ map({ "n" }, "<A-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<A-o>", "<C-o>", { desc = "Jump Backward" })
 
-map({ "n" }, "<A-d>", "<C-d>", { desc = "PageDown" })
-map({ "n" }, "<A-u>", "<C-u>", { desc = "PageUp" })
+map({ "n", "v", "x" }, "<A-d>", "<C-d>", { desc = "PageDown" })
+map({ "n", "v", "x" }, "<A-u>", "<C-u>", { desc = "PageUp" })
 
 map({ "n" }, "<A-r>", "<C-r>", { desc = "Redo" })
 
