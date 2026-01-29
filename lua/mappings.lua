@@ -18,10 +18,12 @@ map({ "n", "v", "x" }, "<A-u>", "<C-u>", { desc = "PageUp" })
 map({ "n" }, "<A-r>", "<C-r>", { desc = "Redo" })
 
 vim.keymap.del("n", "<A-h>")
+vim.keymap.del("n", "<A-v>")
 map("n", "<A-h>", "<C-w>h", { desc = "switch window left" })
 map("n", "<A-l>", "<C-w>l", { desc = "switch window right" })
 map("n", "<A-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<A-k>", "<C-w>k", { desc = "switch window up" })
+map("n", "<A-v>", "<C-v>", { desc = "visual block" })
 
 map("n", "<leader>d", function()
   vim.diagnostic.open_float(nil, { scope = "line" })
