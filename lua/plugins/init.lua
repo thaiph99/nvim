@@ -64,9 +64,9 @@ return {
         filetypes_denylist = { "NvimTree", "TelescopePrompt" },
         modes_allowlist = { "n", "v" },
       }
-      vim.cmd "hi IlluminatedWordRead guibg=#525252"
-      vim.cmd "hi IlluminatedWordText guibg=#525252"
-      vim.cmd "hi IlluminatedWordWrite guibg=#525252"
+      -- vim.cmd "hi IlluminatedWordRead guibg=#525252"
+      -- vim.cmd "hi IlluminatedWordText guibg=#525252"
+      -- vim.cmd "hi IlluminatedWordWrite guibg=#525252"
     end,
   },
 
