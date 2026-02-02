@@ -25,7 +25,7 @@ map("n", "<A-j>", "<C-w>j", { desc = "switch window down" })
 map("n", "<A-k>", "<C-w>k", { desc = "switch window up" })
 map("n", "<A-v>", "<C-v>", { desc = "visual block" })
 
-map("n", "<leader>d", function()
+map("n", "<leader>dd", function()
   vim.diagnostic.open_float(nil, { scope = "line" })
 end, { desc = "Open diagnostic float" })
 
@@ -143,3 +143,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end, 100) -- Wait 100ms after LSP attach
   end,
 })
+
+-- DAP (Debug Adapter Protocol) keymappings
+map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle Breakpoint" })
+map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Start/Continue Debugging" })
+map("n", "<leader>di", "<cmd>DapStepInto<CR>", { desc = "Step Into" })
+map("n", "<leader>do", "<cmd>DapStepOver<CR>", { desc = "Step Over" })
+map("n", "<leader>dO", "<cmd>DapStepOut<CR>", { desc = "Step Out" })
+map("n", "<leader>dt", "<cmd>DapTerminate<CR>", { desc = "Terminate Debugging" })
+map("n", "<leader>dr", "<cmd>DapToggleRepl<CR>", { desc = "Toggle REPL" })
+map("n", "<leader>du", function()
+  require("dapui").toggle()
+end, { desc = "Toggle DAP UI" })
+map("n", "<leader>dh", function()
+  require("dap.ui.widgets").hover()
+end, { desc = "Hover Variables" })
+map("n", "<leader>ds", function()
+  local widgets = require "dap.ui.widgets"
+  widgets.centered_float(widgets.scopes)
+end, { desc = "Show Scopes" })

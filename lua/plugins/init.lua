@@ -52,6 +52,7 @@ return {
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_assume_mapped = true
     end,
+    version = "1.58.0",
   },
 
   {
@@ -200,6 +201,20 @@ return {
     init = function()
       vim.g.db_ui_win_position = "right"
       vim.g.db_ui_use_nerd_fonts = 1
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    event = "VeryLazy",
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio",
+      "jay-babu/mason-nvim-dap.nvim",
+      "theHamsta/nvim-dap-virtual-text",
+    },
+    config = function()
+      require "configs.dap"
     end,
   },
 }
