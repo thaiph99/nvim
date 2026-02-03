@@ -111,7 +111,7 @@ dap.configurations.c = dap.configurations.cpp
 
 -- Setup mason-nvim-dap
 require("mason-nvim-dap").setup {
-  ensure_installed = { "codelldb" },
+  ensure_installed = { "codelldb", "java-debug-adapter", "java-test" },
   automatic_installation = true,
   handlers = {},
 }

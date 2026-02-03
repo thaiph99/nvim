@@ -20,6 +20,18 @@ return {
   },
 
   {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "mfussenegger/nvim-dap",
+    },
+    config = function()
+      require "configs.jdtls"
+    end,
+  },
+
+  {
     "kylechui/nvim-surround",
     version = "*", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
