@@ -7,6 +7,9 @@ map("i", "jk", "<ESC>")
 
 map({ "n", "i", "v" }, "<C-s", "<cmd> w <cr>")
 
+-- terminal
+map("t", "<A-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
+
 -- use Alt instead of Ctrl for some common commands
 map({ "n" }, "<A-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
