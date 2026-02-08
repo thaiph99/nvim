@@ -2,8 +2,28 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
+map("n", ";", ":", { desc = "CMD enter command mode" } --[[@as table]])
+map("i", "jk", "<ESC>") --[[@as table]]
+
+local function close_buffer_and_return()
+  local current = vim.api.nvim_get_current_buf()
+  local alternate = vim.fn.bufnr "#"
+
+  if alternate ~= -1 and vim.api.nvim_buf_is_loaded(alternate) then
+    vim.cmd "buffer #"
+  else
+    local switched = pcall(vim.cmd, "bprevious")
+    if not switched then
+      return vim.cmd "bd"
+    end
+  end
+
+  if vim.api.nvim_buf_is_loaded(current) then
+    pcall(vim.cmd, "bd " .. current)
+  end
+end
+
+map("n", "<leader>x", close_buffer_and_return, { desc = "Close buffer and go back" })
 
 map({ "n", "i", "v" }, "<C-s", "<cmd> w <cr>")
 
@@ -14,6 +34,7 @@ map("t", "<A-q>", "<C-\\><C-N>", { desc = "terminal escape terminal mode" })
 map({ "n" }, "<A-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<C-p>", "<C-i>", { desc = "Jump Forward" })
 map({ "n" }, "<A-o>", "<C-o>", { desc = "Jump Backward" })
+map({ "n" }, "<A-g>", "<C-g>", { desc = "Show path" })
 
 map({ "n", "v", "x" }, "<A-d>", "<C-d>", { desc = "PageDown" })
 map({ "n", "v", "x" }, "<A-u>", "<C-u>", { desc = "PageUp" })
