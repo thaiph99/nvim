@@ -1,3 +1,5 @@
+local base = require "nvchad.configs.nvimtree"
+
 local function sort_by_natural(nodes)
   local function sorter(left, right)
     if left.name == "." then
@@ -34,7 +36,7 @@ local function sort_by_natural(nodes)
   table.sort(nodes, sorter)
 end
 
-return {
+return vim.tbl_deep_extend("force", base, {
   sort_by = sort_by_natural,
   renderer = {
     root_folder_label = ":t",
@@ -42,4 +44,4 @@ return {
   filters = {
     custom = { "^.git$" },
   },
-}
+})
