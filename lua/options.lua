@@ -4,9 +4,34 @@ require "nvchad.options"
 
 local o = vim.o
 o.cursorlineopt = "both" -- to enable cursorline!
+o.mouse = ""
 
 -- Prevent cursor from being at the first or last line
 vim.opt.scrolloff = 5
+
+-- Autosave on buffer switch
+local function autosave_current_buffer()
+  if vim.bo.buftype ~= "" then
+    return
+  end
+  if not vim.bo.modifiable or vim.bo.readonly then
+    return
+  end
+  if not vim.bo.modified then
+    return
+  end
+  if vim.api.nvim_buf_get_name(0) == "" then
+    return
+  end
+
+  vim.cmd "silent! update" -- Save the current buffer silently
+end
+
+vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
+  callback = autosave_current_buffer,
+  desc = "Autosave buffer on switch/float terminal",
+})
+
 vim.opt.wrap = false
 vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
