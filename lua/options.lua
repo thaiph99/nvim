@@ -1,7 +1,5 @@
 require "nvchad.options"
 
--- add yours here!
-
 local o = vim.o
 o.cursorlineopt = "both" -- to enable cursorline!
 o.mouse = ""
@@ -9,7 +7,7 @@ o.mouse = ""
 -- Prevent cursor from being at the first or last line
 vim.opt.scrolloff = 5
 
--- Autosave on buffer switch
+-- Autosave current buffer when switching buffers or leaving window
 local function autosave_current_buffer()
   if vim.bo.buftype ~= "" then
     return
@@ -39,8 +37,8 @@ vim.opt.foldlevel = 99
 vim.o.title = true
 vim.o.titlestring = "nvim - " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
 
+-- disable auto inserting comment on new line
 vim.api.nvim_create_autocmd("BufEnter", {
-  --
   pattern = "*",
   callback = function()
     vim.opt.formatoptions:remove "o"
@@ -51,6 +49,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
 -- autosave
 vim.o.autowriteall = true
 vim.o.updatetime = 2000 -- Set idle timeout to 2 seconds
+
+-- Auto-save modified buffer on CursorHold
 vim.api.nvim_create_autocmd("CursorHold", {
   pattern = "*",
   callback = function()
