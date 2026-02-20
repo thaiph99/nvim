@@ -137,10 +137,11 @@ M.ui = {
 M.term = {
   float = {
     row = 0.05,
-    col = 0.15,
+    col = 0.1,
     height = 0.8,
-    width = 0.7,
+    width = 0.8,
   },
+  startinsert = false,
 }
 
 M.nvdash = {
