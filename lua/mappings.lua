@@ -114,6 +114,8 @@ map("v", "<leader>fa", function()
   end
 end, { desc = "Find files with selected word", silent = true })
 
+map("n", "<leader>fr", telescope.resume, { desc = "Resume last telescope picker", silent = true })
+
 -- Telescope LSP keymaps override
 -- Create an autocmd to override LSP keymaps after they are set
 
