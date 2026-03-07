@@ -2,7 +2,7 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" } --[[@as table]])
+-- map("n", ";", ":", { desc = "CMD enter command mode" } --[[@as table]])
 map("i", "jk", "<ESC>") --[[@as table]]
 
 local function close_buffer_and_return()
