@@ -38,11 +38,10 @@ vim.o.title = true
 vim.o.titlestring = "nvim - " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
 
 -- disable auto inserting comment on new line
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "*",
   callback = function()
-    vim.opt.formatoptions:remove "o"
-    vim.opt.formatoptions:remove "r"
+    vim.opt_local.formatoptions:remove { "c", "r", "o" }
   end,
 })
 
