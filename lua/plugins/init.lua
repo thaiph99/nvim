@@ -109,55 +109,23 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    version = false, -- Never set this value to "*"! Never!
+    version = false, -- set this if you want to always pull the latest change
     opts = {
-      provider = "copilot",
+      input = { provider = "native" },
+      provider = "claude",
       providers = {
-        copilot = {
-          model = "claude-sonnet-4",
+        claude = {
+          endpoint = "https://api.anthropic.com",
+          model = "claude-opus-4-5-20251101", -- Claude Opus 4.5 (latest)
+          auth_type = "max", -- Use Claude Max subscription via OAuth, otherwise use 'api'
         },
-      },
-      cursor_applying_provider = "copilot",
-      behaviour = {
-        enable_cursor_planning_mode = true,
       },
     },
+
     build = "make",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      --- optional,
-      -- "echasnovski/mini.pick", -- for file_selector provider mini.pick
-      -- "ibhagwan/fzf-lua", -- for file_selector provider fzf
-      "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      -- "zbirenbaum/copilot.lua", -- for providers='copilot'
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-          },
-        },
-      },
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-          code = { priority = 150 },
-        },
-        ft = { "markdown", "Avante" },
-      },
     },
   },
 
