@@ -9,6 +9,14 @@ local status_buf = function()
   return vim.api.nvim_win_get_buf(vim.g.statusline_winid or 0)
 end
 local icons = { file = "󰈚", lang = "󰈙" }
+
+local _cache = {}
+vim.api.nvim_create_autocmd("BufUnload", {
+  callback = function(ev)
+    _cache[ev.buf] = nil
+  end,
+})
+
 local devicon = function(kind, key, default_icon)
   local ok, devicons = pcall(require, "nvim-web-devicons")
   if not ok then
@@ -37,7 +45,9 @@ M.base46 = {
 
 local format_language = function(bufnr)
   bufnr = bufnr ~= 0 and bufnr or status_buf()
-
+  if _cache[bufnr] and _cache[bufnr].lang then
+    return _cache[bufnr].lang
+  end
   local lang
   local ok, parsers = pcall(require, "nvim-treesitter.parsers")
   if ok then
@@ -47,18 +57,25 @@ local format_language = function(bufnr)
   if lang == "" then
     return "Plaintext"
   end
-
   local words = {}
   for word in lang:gmatch "[^_%-%.]+" do
     words[#words + 1] = word:sub(1, 1):upper() .. word:sub(2)
   end
-
-  return #words > 0 and table.concat(words, " ") or lang
+  local result = #words > 0 and table.concat(words, " ") or lang
+  _cache[bufnr] = _cache[bufnr] or {}
+  _cache[bufnr].lang = result
+  return result
 end
 
 local get_lang_icon = function(bufnr)
+  if _cache[bufnr] and _cache[bufnr].lang_icon then
+    return _cache[bufnr].lang_icon
+  end
   local ft = vim.bo[bufnr].filetype
-  return (ft and ft ~= "") and devicon("ft", ft, icons.lang) or icons.lang
+  local result = (ft and ft ~= "") and devicon("ft", ft, icons.lang) or icons.lang
+  _cache[bufnr] = _cache[bufnr] or {}
+  _cache[bufnr].lang_icon = result
+  return result
 end
 
 local shorten_with_ellipsis = function(path, max_len)
@@ -99,6 +116,9 @@ end
 
 local format_file_path = function(bufnr)
   bufnr = bufnr ~= 0 and bufnr or status_buf()
+  if _cache[bufnr] and _cache[bufnr].file then
+    return _cache[bufnr].file.icon, _cache[bufnr].file.path
+  end
 
   local path = vim.api.nvim_buf_get_name(bufnr)
   if path == "" then
@@ -107,10 +127,11 @@ local format_file_path = function(bufnr)
 
   local icon = devicon("file", vim.fn.fnamemodify(path, ":t"), icons.file)
   local display_path = normalize_path(path)
-
   local max_len = math.max(25, math.floor(vim.o.columns * 0.35))
   display_path = shorten_with_ellipsis(display_path, max_len)
 
+  _cache[bufnr] = _cache[bufnr] or {}
+  _cache[bufnr].file = { icon = icon, path = display_path }
   return icon, display_path
 end
 
