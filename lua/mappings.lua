@@ -59,7 +59,6 @@ map("i", "<A-l>", function()
 end, { desc = "Copilot Accept", noremap = true, silent = true })
 
 -- telescope with selected word helper function
-local telescope = require "telescope.builtin"
 local function get_selected_text()
   local v_start = vim.fn.getpos "v"
   local v_end = vim.fn.getpos "."
@@ -94,7 +93,7 @@ end
 map("v", "<leader>fw", function()
   local text = get_selected_text()
   if text ~= "" then
-    telescope.live_grep { default_text = text }
+    require("telescope.builtin").live_grep { default_text = text }
   end
 end, { desc = "Live grep selected word", silent = true })
 
@@ -102,7 +101,7 @@ end, { desc = "Live grep selected word", silent = true })
 map("v", "<leader>ff", function()
   local text = get_selected_text()
   if text ~= "" then
-    telescope.find_files { default_text = text }
+    require("telescope.builtin").find_files { default_text = text }
   end
 end, { desc = "Find files with selected word", silent = true })
 
@@ -110,11 +109,13 @@ end, { desc = "Find files with selected word", silent = true })
 map("v", "<leader>fa", function()
   local text = get_selected_text()
   if text ~= "" then
-    telescope.find_files { default_text = text, follow = true, no_ignore = true, hidden = true }
+    require("telescope.builtin").find_files { default_text = text, follow = true, no_ignore = true, hidden = true }
   end
 end, { desc = "Find files with selected word", silent = true })
 
-map("n", "<leader>fr", telescope.resume, { desc = "Resume last telescope picker", silent = true })
+map("n", "<leader>fr", function()
+  require("telescope.builtin").resume()
+end, { desc = "Resume last telescope picker", silent = true })
 
 -- Telescope LSP keymaps override
 -- Create an autocmd to override LSP keymaps after they are set
