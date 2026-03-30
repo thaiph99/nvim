@@ -70,7 +70,7 @@ return {
 
   {
     "RRethy/vim-illuminate",
-    lazy = false,
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("illuminate").configure {
         providers = { "lsp", "treesitter", "regex" },
@@ -177,7 +177,15 @@ return {
 
   {
     "mfussenegger/nvim-dap",
-    event = "VeryLazy",
+    cmd = {
+      "DapToggleBreakpoint",
+      "DapContinue",
+      "DapStepInto",
+      "DapStepOver",
+      "DapStepOut",
+      "DapTerminate",
+      "DapToggleRepl",
+    },
     dependencies = {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
@@ -186,6 +194,19 @@ return {
     },
     config = function()
       require "configs.dap"
+    end,
+  },
+
+  {
+    "nvim-telescope/telescope.nvim",
+    version = "*",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      -- optional but recommended
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
+    opts = function()
+      return require "nvchad.configs.telescope"
     end,
   },
 }
