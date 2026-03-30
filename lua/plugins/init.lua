@@ -189,16 +189,6 @@ return {
     },
   },
 
-  -- {
-  --   "goolord/alpha-nvim",
-  --   event = "VimEnter",
-  --   enabled = true,
-  --   init = false,
-  --   config = function()
-  --     require "configs.alpha"
-  --   end,
-  -- },
-
   {
     "kristijanhusak/vim-dadbod-ui",
     dependencies = {
