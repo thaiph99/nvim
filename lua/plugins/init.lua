@@ -84,28 +84,6 @@ return {
     end,
   },
 
-  -- {
-  --   "CopilotC-Nvim/CopilotChat.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-  --     { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-  --   },
-  --   build = "make tiktoken", -- Only on MacOS or Linux
-  --   opts = {
-  --     window = {
-  --       width = 0.4,
-  --     },
-  --     mappings = {
-  --       reset = {
-  --         normal = "<C-e>",
-  --         insert = "<C-e>",
-  --       },
-  --     },
-  --   },
-  --   -- See Commands section for default commands if you want to lazy load on them
-  -- },
-
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
@@ -128,11 +106,6 @@ return {
       "MunifTanjim/nui.nvim",
     },
   },
-
-  -- {
-  --   "tpope/vim-fugitive",
-  --   event = "VeryLazy",
-  -- },
 
   {
     "kawre/leetcode.nvim",
