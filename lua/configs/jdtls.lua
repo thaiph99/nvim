@@ -16,7 +16,7 @@ local function mason_install_root()
       return current.install_root_dir
     end
   end
-  return vim.fn.stdpath("data") .. "/mason"
+  return vim.fn.stdpath "data" .. "/mason"
 end
 
 local function mason_pkg_path(name)
@@ -24,6 +24,7 @@ local function mason_pkg_path(name)
 end
 
 local root_markers = {
+  ".git",
   "gradlew",
   "mvnw",
   "pom.xml",
@@ -31,7 +32,6 @@ local root_markers = {
   "build.gradle.kts",
   "settings.gradle",
   "settings.gradle.kts",
-  ".git",
 }
 
 local root_dir = jdtls_setup.find_root(root_markers)
@@ -72,10 +72,7 @@ local bundles = {}
 
 local java_debug_path = mason_pkg_path "java-debug-adapter"
 if vim.fn.isdirectory(java_debug_path) == 1 then
-  local debug_bundle = vim.fn.glob(
-    java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar",
-    true
-  )
+  local debug_bundle = vim.fn.glob(java_debug_path .. "/extension/server/com.microsoft.java.debug.plugin-*.jar", true)
   vim.list_extend(bundles, vim.split(debug_bundle, "\n", { trimempty = true }))
 end
 
