@@ -182,4 +182,10 @@ return {
       return require "nvchad.configs.telescope"
     end,
   },
+
+  {
+    "stevearc/dressing.nvim",
+    lazy = false,
+    opts = {},
+  },
 }
