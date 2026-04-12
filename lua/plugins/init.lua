@@ -90,12 +90,10 @@ return {
     version = false, -- set this if you want to always pull the latest change
     opts = {
       input = { provider = "native" },
-      provider = "claude",
+      provider = "copilot",
       providers = {
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model = "claude-opus-4-5-20251101", -- Claude Opus 4.5 (latest)
-          auth_type = "max", -- Use Claude Max subscription via OAuth, otherwise use 'api'
+        copilot = {
+          model = "gpt-4.1",
         },
       },
     },
