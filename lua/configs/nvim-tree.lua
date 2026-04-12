@@ -38,6 +38,9 @@ end
 
 return vim.tbl_deep_extend("force", base, {
   sort_by = sort_by_natural,
+  view = {
+    width = 35, -- default is 30
+  },
   renderer = {
     root_folder_label = ":t",
   },
