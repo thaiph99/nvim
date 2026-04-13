@@ -171,6 +171,51 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
+-- Add current line to quickfix list
+map("n", "<leader>qa", function()
+  local entry = {
+    bufnr = vim.api.nvim_get_current_buf(),
+    lnum = vim.fn.line ".",
+    col = vim.fn.col ".",
+    text = vim.fn.getline("."):match "^%s*(.-)%s*$",
+  }
+  vim.fn.setqflist({ entry }, "a")
+  vim.notify("Added to quickfix: line " .. entry.lnum, vim.log.levels.INFO)
+end, { desc = "Add current line to quickfix list" })
+
+-- In quickfix buffer: delete entries with dd (normal) or d (visual)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    local function delete_qf_entries(first, last)
+      local list = vim.fn.getqflist()
+      for _ = first, last do
+        table.remove(list, first)
+      end
+      vim.fn.setqflist(list, "r")
+      local new_len = #list
+      if new_len > 0 then
+        vim.fn.cursor(math.min(first, new_len), 1)
+      end
+    end
+
+    vim.keymap.set("n", "dd", function()
+      delete_qf_entries(vim.fn.line ".", vim.fn.line ".")
+    end, { buffer = true, desc = "Delete quickfix entry" })
+
+    vim.keymap.set("n", "<leader>qd", function()
+      delete_qf_entries(vim.fn.line ".", vim.fn.line ".")
+    end, { buffer = true, desc = "Delete quickfix entry" })
+
+    vim.keymap.set("v", "d", function()
+      local first = vim.fn.line "v" < vim.fn.line "." and vim.fn.line "v" or vim.fn.line "."
+      local last = vim.fn.line "v" > vim.fn.line "." and vim.fn.line "v" or vim.fn.line "."
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+      delete_qf_entries(first, last)
+    end, { buffer = true, desc = "Delete selected quickfix entries" })
+  end,
+})
+
 -- DAP (Debug Adapter Protocol) keymappings
 map("n", "<leader>db", "<cmd>DapToggleBreakpoint<CR>", { desc = "Toggle Breakpoint" })
 map("n", "<leader>dc", "<cmd>DapContinue<CR>", { desc = "Start/Continue Debugging" })
