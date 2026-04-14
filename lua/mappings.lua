@@ -39,8 +39,6 @@ map({ "n" }, "<A-g>", "<C-g>", { desc = "Show path" })
 map({ "n", "v", "x" }, "<A-d>", "<C-d>", { desc = "PageDown" })
 map({ "n", "v", "x" }, "<A-u>", "<C-u>", { desc = "PageUp" })
 
-map({ "n" }, "<A-r>", "<C-r>", { desc = "Redo" })
-
 vim.keymap.del("n", "<A-h>")
 vim.keymap.del("n", "<A-v>")
 map("n", "<A-h>", "<C-w>h", { desc = "switch window left" })
@@ -124,6 +122,7 @@ pcall(vim.keymap.del, "n", "grr")
 pcall(vim.keymap.del, "n", "grt")
 pcall(vim.keymap.del, "n", "gri")
 pcall(vim.keymap.del, "n", "gra")
+pcall(vim.keymap.del, "n", "grx") -- vim.lsp.codelens.runs()
 pcall(vim.keymap.del, "n", "grn")
 
 vim.api.nvim_create_autocmd("LspAttach", {
