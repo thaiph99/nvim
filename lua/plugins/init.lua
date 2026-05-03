@@ -193,6 +193,10 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {
       file_types = { "markdown", "Avante" },
+      win_options = {
+        wrap = { default = false, rendered = true },
+        linebreak = { default = false, rendered = true },
+      },
     },
     ft = { "markdown", "Avante" },
   },
