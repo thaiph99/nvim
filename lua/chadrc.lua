@@ -49,9 +49,8 @@ local format_language = function(bufnr)
     return _cache[bufnr].lang
   end
   local lang
-  local ok, parsers = pcall(require, "nvim-treesitter.parsers")
-  if ok then
-    lang = parsers.get_buf_lang(bufnr)
+  if vim.treesitter.language and vim.treesitter.language.get_lang then
+    lang = vim.treesitter.language.get_lang(vim.bo[bufnr].filetype)
   end
   lang = lang or vim.bo[bufnr].filetype or "Plaintext"
   if lang == "" then

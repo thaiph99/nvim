@@ -1,10 +1,11 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require "configs.treesitter"
-    end,
+    branch = "main", -- switch from master → main
+    build = ":TSUpdate",
+    main = "nvim-treesitter", -- was "nvim-treesitter.configs"
+    event = { "BufReadPost", "BufNewFile" },
+    init = require "configs.treesitter",
   },
 
   {
@@ -200,5 +201,4 @@ return {
     },
     ft = { "markdown", "Avante" },
   },
-
 }
