@@ -135,6 +135,9 @@ local format_file_path = function(bufnr)
 end
 
 M.ui = {
+  tabufline = {
+    order = { "treeOffset", "buffers", "tabs" },
+  },
   statusline = {
     theme = "vscode_colored",
     order = { "mode", "file_path", "git", "%=", "lsp_msg", "%=", "diagnostics", "lang", "cwd", "cursor" },
