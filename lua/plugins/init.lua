@@ -71,22 +71,6 @@ return {
   },
 
   {
-    "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile" },
-    config = function()
-      require("illuminate").configure {
-        providers = { "lsp", "treesitter", "regex" },
-        delay = 300,
-        filetypes_denylist = { "NvimTree", "TelescopePrompt" },
-        modes_allowlist = { "n", "v" },
-      }
-      -- vim.cmd "hi IlluminatedWordRead guibg=#525252"
-      -- vim.cmd "hi IlluminatedWordText guibg=#525252"
-      -- vim.cmd "hi IlluminatedWordWrite guibg=#525252"
-    end,
-  },
-
-  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     version = false, -- set this if you want to always pull the latest change
