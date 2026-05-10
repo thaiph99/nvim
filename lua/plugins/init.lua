@@ -119,14 +119,6 @@ return {
     opts = {
       arg = "leetcode.nvim",
       picker = { provider = "telescope" },
-      injector = {
-        ["cpp"] = {
-          before = {
-            "#include <bits/stdc++.h>",
-            "using namespace std;",
-          },
-        },
-      },
     },
   },
 
