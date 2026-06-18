@@ -56,6 +56,14 @@ map("i", "<A-l>", function()
   vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
 end, { desc = "Copilot Accept", noremap = true, silent = true })
 
+map("i", "<A-k>", function()
+  vim.fn.feedkeys(vim.fn["copilot#AcceptWord"](), "")
+end, { desc = "Copilot Accept Word", noremap = true, silent = true })
+
+map("i", "<A-j>", function()
+  vim.fn.feedkeys(vim.fn["copilot#AcceptLine"](), "")
+end, { desc = "Copilot Accept Line", noremap = true, silent = true })
+
 -- telescope with selected word helper function
 local function get_selected_text()
   local v_start = vim.fn.getpos "v"
