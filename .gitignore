@@ -1,0 +1,17 @@
+.claude
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Neovim local state
+spell/
+*.shada
+tags
+
+nvim-pack-lock.json
+.luarc.json
+
