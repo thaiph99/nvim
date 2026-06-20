@@ -1,16 +1,21 @@
 local devicons = require "nvim-web-devicons"
 devicons.setup {}
 
--- Palette tuned to match the `chadracula` base46 theme used by ~/.config/nvim.
-require("dracula").setup {
-  italic_comment = false,
-  colors = {
-    red = "#ff7070", -- chadracula's softer red (dracula default is #FF5555)
-    comment = "#666771", -- grey comments like NvChad (dracula default is blue #6272A4)
-    selection = "#44475a",
-    bright_green = "#5dff88", -- chadracula vibrant_green
-    bright_magenta = "#ff86d3", -- chadracula baby_pink
-    bright_blue = "#a1b1e3", -- chadracula blue
+-- Catppuccin Macchiato.
+require("catppuccin").setup {
+  flavour = "macchiato",
+  -- No italics anywhere (keeps the upright look used by the rest of this config).
+  no_italic = true,
+  integrations = {
+    blink_cmp = true,
+    gitsigns = true,
+    treesitter = true,
+    telescope = { enabled = true },
+    native_lsp = { enabled = true },
+    nvimtree = true,
+    dap = true,
+    dap_ui = true,
+    mason = true,
   },
 }
 
@@ -61,7 +66,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-vim.cmd.colorscheme "dracula"
+vim.cmd.colorscheme "catppuccin-macchiato"
 tweak_highlights()
 
 -- Native statusline (single global statusline via laststatus=3).

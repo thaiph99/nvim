@@ -31,9 +31,8 @@ vim.api.nvim_create_autocmd("PackChanged", {
 -- load = true forces :packadd now, so we can require plugin configs below.
 vim.pack.add({
   { src = gh "nvim-lua/plenary.nvim" },
-  { src = gh "MunifTanjim/nui.nvim" },
   { src = gh "nvim-tree/nvim-web-devicons" },
-  { src = gh "Mofiqul/dracula.nvim" },
+  { src = gh "catppuccin/nvim" },
   { src = gh "nvim-treesitter/nvim-treesitter",         version = "main" },
   { src = gh "neovim/nvim-lspconfig" },
   { src = gh "mason-org/mason.nvim" },

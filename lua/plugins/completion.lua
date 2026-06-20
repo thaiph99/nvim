@@ -18,7 +18,8 @@ require("blink.cmp").setup {
   signature = { enabled = true },
 
   cmdline = {
-    -- Behave like the buffer menu: Tab/S-Tab cycle options, Enter accepts.
+    -- Tab/S-Tab cycle options AND insert each into the command line as you go
+    -- (auto_insert), so you can keep going without pressing Enter to apply.
     keymap = {
       preset = "cmdline",
       ["<Tab>"] = { "show", "select_next", "fallback" },
@@ -27,7 +28,7 @@ require("blink.cmp").setup {
     },
     completion = {
       menu = { auto_show = true }, -- show the menu as you type
-      list = { selection = { preselect = false, auto_insert = false } },
+      list = { selection = { preselect = false, auto_insert = true } },
     },
   },
 

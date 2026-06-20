@@ -20,6 +20,9 @@ o.mouse = ""
 opt.fillchars = { eob = " " }
 opt.shortmess:append "sI"
 
+o.list = true
+opt.listchars = { tab = "  ", trail = "·", nbsp = "+" }
+
 -- Indentation
 o.expandtab = true
 o.shiftwidth = 2
