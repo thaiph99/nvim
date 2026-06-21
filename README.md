@@ -55,7 +55,7 @@ LSP servers and formatters are **not** auto-installed. After first launch, run
 this once inside Neovim to install everything this config uses:
 
 ```vim
-:MasonInstall lua-language-server pyright html-lsp css-lsp clangd gopls typescript-language-server jdtls stylua isort black goimports gofumpt shfmt prettierd prettier cmakelang markdownlint google-java-format clang-format codelldb java-debug-adapter java-test
+:MasonInstall lua-language-server pyright clangd gopls typescript-language-server jdtls stylua isort black goimports gofumpt shfmt prettierd prettier cmakelang markdownlint google-java-format clang-format codelldb java-debug-adapter java-test
 ```
 
 (`:Mason` opens the interactive UI to manage/update them; `:checkhealth` flags

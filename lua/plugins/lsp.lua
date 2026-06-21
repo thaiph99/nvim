@@ -21,8 +21,6 @@ vim.diagnostic.config {
 vim.o.winborder = "rounded"
 
 local servers = {
-  html = {},
-  cssls = {},
   pyright = { root_markers = { "requirements.txt", "pyproject.toml", ".git" } },
   clangd = {
     cmd = { "clangd", "--background-index", "--clang-tidy" },
