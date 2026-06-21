@@ -17,15 +17,11 @@ end, { desc = "Format buffer" })
 map("n", "<leader>/", "gcc", { desc = "Toggle comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "Toggle comment", remap = true })
 
--- Window navigation
-map("n", "<C-h>", "<C-w>h", { desc = "Window left" })
-map("n", "<C-l>", "<C-w>l", { desc = "Window right" })
-map("n", "<C-j>", "<C-w>j", { desc = "Window down" })
-map("n", "<C-k>", "<C-w>k", { desc = "Window up" })
-map("n", "<A-h>", "<C-w>h", { desc = "Window left" })
-map("n", "<A-l>", "<C-w>l", { desc = "Window right" })
-map("n", "<A-j>", "<C-w>j", { desc = "Window down" })
-map("n", "<A-k>", "<C-w>k", { desc = "Window up" })
+-- Window navigation (C- and A- variants of h/j/k/l)
+for key, dir in pairs { h = "left", j = "down", k = "up", l = "right" } do
+  map("n", "<C-" .. key .. ">", "<C-w>" .. key, { desc = "Window " .. dir })
+  map("n", "<A-" .. key .. ">", "<C-w>" .. key, { desc = "Window " .. dir })
+end
 
 -- Alt remaps for common motions
 map("n", "<A-v>", "<C-v>", { desc = "Visual block" })
@@ -72,101 +68,47 @@ map("n", "<leader>dd", function()
 end, { desc = "Open diagnostic float" })
 
 -- Copilot
-map("i", "<A-l>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
-end, { desc = "Copilot accept", noremap = true, silent = true })
-
-map("i", "<A-k>", function()
-  vim.fn.feedkeys(vim.fn["copilot#AcceptWord"](), "")
-end, { desc = "Copilot Accept Word", noremap = true, silent = true })
-
-map("i", "<A-j>", function()
-  vim.fn.feedkeys(vim.fn["copilot#AcceptLine"](), "")
-end, { desc = "Copilot Accept Line", noremap = true, silent = true })
-
--- Telescope
-local function builtin()
-  return require "telescope.builtin"
+for key, fn in pairs { ["<A-l>"] = "Accept", ["<A-k>"] = "AcceptWord", ["<A-j>"] = "AcceptLine" } do
+  map("i", key, function()
+    vim.fn.feedkeys(vim.fn["copilot#" .. fn](), "")
+  end, { desc = "Copilot " .. fn, noremap = true, silent = true })
 end
 
-map("n", "<leader>ff", function()
-  builtin().find_files()
-end, { desc = "Find files" })
-map("n", "<leader>fa", function()
-  builtin().find_files { follow = true, no_ignore = true, hidden = true }
-end, { desc = "Find all files" })
-map("n", "<leader>fw", function()
-  builtin().live_grep()
-end, { desc = "Live grep" })
-map("n", "<leader>fb", function()
-  builtin().buffers()
-end, { desc = "Find buffers" })
-map("n", "<leader>fo", function()
-  builtin().oldfiles()
-end, { desc = "Recent files" })
-map("n", "<leader>fz", function()
-  builtin().current_buffer_fuzzy_find()
-end, { desc = "Find in current buffer" })
-map("n", "<leader>fh", function()
-  builtin().help_tags()
-end, { desc = "Help tags" })
-map("n", "<leader>ma", function()
-  builtin().marks()
-end, { desc = "Marks" })
-map("n", "<leader>cm", function()
-  builtin().git_commits()
-end, { desc = "Git commits" })
-map("n", "<leader>gt", function()
-  builtin().git_status()
-end, { desc = "Git status" })
-map("n", "<leader>fr", function()
-  builtin().resume()
-end, { desc = "Resume last picker" })
-
--- Telescope with the current visual selection as the query
-local function get_selected_text()
-  local v_start = vim.fn.getpos "v"
-  local v_end = vim.fn.getpos "."
-  local ls, cs = v_start[2], v_start[3]
-  local le, ce = v_end[2], v_end[3]
-  if ls > le or (ls == le and cs > ce) then
-    ls, le = le, ls
-    cs, ce = ce, cs
+-- Telescope: pick(name, opts) returns a handler that calls that builtin picker.
+local function pick(name, opts)
+  return function()
+    require("telescope.builtin")[name](opts)
   end
-  local lines = vim.fn.getline(ls, le)
-  if type(lines) == "string" then
-    lines = { lines }
-  end
-  if #lines == 0 then
-    return ""
-  end
-  lines[1] = lines[1]:sub(cs, -1)
-  if #lines == 1 then
-    lines[1] = lines[1]:sub(1, ce - cs + 1)
-  else
-    lines[#lines] = lines[#lines]:sub(1, ce)
-  end
-  return table.concat(lines, " ")
 end
 
-map("v", "<leader>fw", function()
-  local text = get_selected_text()
-  if text ~= "" then
-    builtin().live_grep { default_text = text }
+local all_files = { follow = true, no_ignore = true, hidden = true }
+
+map("n", "<leader>ff", pick "find_files", { desc = "Find files" })
+map("n", "<leader>fa", pick("find_files", all_files), { desc = "Find all files" })
+map("n", "<leader>fw", pick "live_grep", { desc = "Live grep" })
+map("n", "<leader>fb", pick "buffers", { desc = "Find buffers" })
+map("n", "<leader>fo", pick "oldfiles", { desc = "Recent files" })
+map("n", "<leader>fz", pick "current_buffer_fuzzy_find", { desc = "Find in current buffer" })
+map("n", "<leader>fh", pick "help_tags", { desc = "Help tags" })
+map("n", "<leader>ma", pick "marks", { desc = "Marks" })
+map("n", "<leader>cm", pick "git_commits", { desc = "Git commits" })
+map("n", "<leader>gt", pick "git_status", { desc = "Git status" })
+map("n", "<leader>fr", pick "resume", { desc = "Resume last picker" })
+
+-- Telescope seeded with the current visual selection as the query.
+local function pick_selection(name, opts)
+  return function()
+    local lines = vim.fn.getregion(vim.fn.getpos "v", vim.fn.getpos ".", { type = vim.fn.mode() })
+    local text = table.concat(lines, " ")
+    if text ~= "" then
+      pick(name, vim.tbl_extend("force", opts or {}, { default_text = text }))()
+    end
   end
-end, { desc = "Live grep selection", silent = true })
-map("v", "<leader>ff", function()
-  local text = get_selected_text()
-  if text ~= "" then
-    builtin().find_files { default_text = text }
-  end
-end, { desc = "Find files with selection", silent = true })
-map("v", "<leader>fa", function()
-  local text = get_selected_text()
-  if text ~= "" then
-    builtin().find_files { default_text = text, follow = true, no_ignore = true, hidden = true }
-  end
-end, { desc = "Find all files with selection", silent = true })
+end
+
+map("v", "<leader>fw", pick_selection "live_grep", { desc = "Live grep selection", silent = true })
+map("v", "<leader>ff", pick_selection "find_files", { desc = "Find files with selection", silent = true })
+map("v", "<leader>fa", pick_selection("find_files", all_files), { desc = "Find all files with selection", silent = true })
 
 -- Quickfix
 map("n", "<leader>qa", function()
@@ -206,8 +148,8 @@ local function toggle_float_term()
   })
   if vim.bo[term.buf].buftype ~= "terminal" then
     vim.cmd "terminal"
+    vim.cmd "startinsert"
   end
-  vim.cmd "startinsert"
 end
 map({ "n", "t" }, "<A-i>", toggle_float_term, { desc = "Toggle floating terminal" })
 

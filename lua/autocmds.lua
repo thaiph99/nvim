@@ -54,6 +54,44 @@ vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave", "CursorHold" }, {
   callback = autosave,
 })
 
+-- Terminal: drop line numbers / sign column for a clean float
+local terminal_group = augroup "terminal"
+
+vim.api.nvim_create_autocmd("TermOpen", {
+  group = terminal_group,
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.signcolumn = "no"
+  end,
+})
+
+-- Keep a stable cursor/scroll position when switching focus in/out of a
+-- terminal: save the view on leave, restore it (in normal mode) on enter.
+local term_views = {}
+
+vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
+  group = terminal_group,
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      term_views[vim.api.nvim_get_current_buf()] = vim.fn.winsaveview()
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  group = terminal_group,
+  callback = function()
+    if vim.bo.buftype == "terminal" then
+      vim.cmd "stopinsert"
+      local view = term_views[vim.api.nvim_get_current_buf()]
+      if view then
+        vim.fn.winrestview(view)
+      end
+    end
+  end,
+})
+
 -- Quickfix: delete entries with dd (normal) / d (visual)
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup "quickfix",

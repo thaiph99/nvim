@@ -44,9 +44,8 @@ o.autowriteall = true
 o.splitright = true
 o.splitbelow = true
 
--- Folding (treesitter, all open by default)
+-- Folding (indent-based, all open by default)
 o.foldmethod = "indent"
-o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 o.foldlevel = 99
 o.foldlevelstart = 99
 opt.foldtext = ""

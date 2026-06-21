@@ -48,13 +48,8 @@ local function start_jdtls()
   end
 
   local launcher = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
-  local system = vim.loop.os_uname().sysname
-  local config_dir = jdtls_path .. "/config_linux"
-  if system == "Darwin" then
-    config_dir = jdtls_path .. "/config_mac"
-  elseif system == "Windows_NT" then
-    config_dir = jdtls_path .. "/config_win"
-  end
+  local config_suffix = ({ Darwin = "/config_mac", Windows_NT = "/config_win" })[vim.uv.os_uname().sysname]
+  local config_dir = jdtls_path .. (config_suffix or "/config_linux")
   local lombok = jdtls_path .. "/lombok.jar"
 
   if launcher == "" then
