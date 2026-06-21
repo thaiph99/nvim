@@ -1,4 +1,4 @@
--- Natural sort (numbers in names compared numerically), directories first.
+-- Natural sort (numeric-aware), directories first.
 local function sort_by_natural(nodes)
   local function sorter(left, right)
     if left.name == "." then

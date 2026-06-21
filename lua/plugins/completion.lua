@@ -1,5 +1,4 @@
 require("blink.cmp").setup {
-  -- default: C-space open, C-y accept, C-e hide. Tab/S-Tab cycle, Enter accepts.
   keymap = {
     preset = "default",
     ["<CR>"] = { "accept", "fallback" },
@@ -18,8 +17,6 @@ require("blink.cmp").setup {
   signature = { enabled = true },
 
   cmdline = {
-    -- Tab/S-Tab cycle options AND insert each into the command line as you go
-    -- (auto_insert), so you can keep going without pressing Enter to apply.
     keymap = {
       preset = "cmdline",
       ["<Tab>"] = { "show", "select_next", "fallback" },
@@ -27,7 +24,7 @@ require("blink.cmp").setup {
       ["<CR>"] = { "accept", "fallback" },
     },
     completion = {
-      menu = { auto_show = true }, -- show the menu as you type
+      menu = { auto_show = true },
       list = { selection = { preselect = false, auto_insert = true } },
     },
   },

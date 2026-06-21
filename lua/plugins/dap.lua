@@ -60,7 +60,7 @@ dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
 
--- C/C++ via codelldb (installed through Mason)
+-- C/C++ via codelldb (from Mason)
 dap.adapters.codelldb = {
   type = "server",
   port = "${port}",

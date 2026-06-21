@@ -2,7 +2,7 @@ local function gh(repo)
   return "https://github.com/" .. repo
 end
 
--- Build commands for plugins that ship native code, run on install/update.
+-- Build steps for plugins with native code, run on install/update.
 local build_steps = {
   ["telescope-fzf-native.nvim"] = { "make" },
 }
@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
   end,
 })
 
--- load = true forces :packadd now, so we can require plugin configs below.
+-- load = true: packadd now so plugin configs below can require them.
 vim.pack.add({
   { src = gh "nvim-lua/plenary.nvim" },
   { src = gh "nvim-tree/nvim-web-devicons" },
@@ -53,7 +53,7 @@ vim.pack.add({
   { src = gh "mfussenegger/nvim-jdtls" },
 }, { load = true })
 
--- Load order: ui/devicons first, completion before lsp (capabilities), rest independent.
+-- Order matters: ui first, completion before lsp (capabilities).
 local modules = {
   "plugins.ui",
   "plugins.treesitter",

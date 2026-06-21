@@ -40,7 +40,27 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Autosave modifiable buffers on switch and on idle
+-- Smart indent guide: size leadmultispace to the buffer's indent (shiftwidth,
+-- else tabstop) so the guide follows 2- vs 4-space indents automatically.
+local function set_indent_guide()
+  local w = vim.bo.shiftwidth ~= 0 and vim.bo.shiftwidth or vim.bo.tabstop
+  local lc = vim.opt_local.listchars:get()
+  lc.leadmultispace = "│" .. (" "):rep(math.max(w - 1, 0))
+  vim.opt_local.listchars = lc
+end
+
+vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "OptionSet" }, {
+  group = augroup "indent_guide",
+  callback = function(ev)
+    local opt = ev.match
+    if ev.event == "OptionSet" and opt ~= "shiftwidth" and opt ~= "tabstop" and opt ~= "expandtab" then
+      return
+    end
+    set_indent_guide()
+  end,
+})
+
+-- Autosave on switch / idle
 local function autosave()
   if vim.bo.buftype == "" and vim.bo.modifiable and not vim.bo.readonly and vim.bo.modified then
     if vim.api.nvim_buf_get_name(0) ~= "" then
@@ -54,7 +74,7 @@ vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave", "CursorHold" }, {
   callback = autosave,
 })
 
--- Terminal: drop line numbers / sign column for a clean float
+-- Terminal: no numbers/signs in floats
 local terminal_group = augroup "terminal"
 
 vim.api.nvim_create_autocmd("TermOpen", {
@@ -66,8 +86,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
   end,
 })
 
--- Keep a stable cursor/scroll position when switching focus in/out of a
--- terminal: save the view on leave, restore it (in normal mode) on enter.
+-- Keep terminal cursor/scroll stable across focus switches.
 local term_views = {}
 
 vim.api.nvim_create_autocmd({ "BufLeave", "WinLeave" }, {
@@ -92,7 +111,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
   end,
 })
 
--- Quickfix: delete entries with dd (normal) / d (visual)
+-- Quickfix: delete entries with dd / d
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup "quickfix",
   pattern = "qf",

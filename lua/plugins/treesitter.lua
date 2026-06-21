@@ -35,7 +35,7 @@ if #to_install > 0 then
   ts.install(to_install)
 end
 
--- Start treesitter highlighting + indentation per buffer
+-- Highlighting + indentation per buffer
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
   callback = function()

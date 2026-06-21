@@ -1,5 +1,4 @@
--- Java LSP via nvim-jdtls, started per java buffer. Keymaps come from the
--- global LspAttach autocmd in plugins/lsp.lua.
+-- Java LSP, started per java buffer. Keymaps come from LspAttach in lsp.lua.
 local function start_jdtls()
   local ok_jdtls, jdtls = pcall(require, "jdtls")
   if not ok_jdtls then

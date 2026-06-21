@@ -59,7 +59,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true, noremap = true, desc = desc })
     end
 
-    -- Drop Neovim's default gr* mappings
+    -- Drop default gr* mappings
     for _, lhs in ipairs { "grr", "gri", "grt", "gra", "grn", "grx" } do
       pcall(vim.keymap.del, "n", lhs)
     end
@@ -74,7 +74,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "LSP code action")
     map("n", "<leader>sh", vim.lsp.buf.signature_help, "Signature help")
 
-    -- Highlight references to the symbol under the cursor on hold, clear on move.
+    -- Highlight symbol under cursor on hold, clear on move.
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     if client and client:supports_method "textDocument/documentHighlight" then
       local hl_group = vim.api.nvim_create_augroup("user_lsp_doc_hl_" .. bufnr, { clear = true })

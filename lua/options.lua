@@ -3,9 +3,10 @@ local opt = vim.opt
 
 -- UI
 o.number = true
-o.numberwidth = 2
 o.ruler = false
 o.signcolumn = "yes"
+-- Line number, two-space gap, sign column (so text isn't cramped against numbers).
+o.statuscolumn = "%=%{&number ? (&relativenumber && v:relnum ? v:relnum : v:lnum) : ''}  %s"
 o.cursorline = true
 o.cursorlineopt = "both"
 o.scrolloff = 5
@@ -21,7 +22,9 @@ opt.fillchars = { eob = " " }
 opt.shortmess:append "sI"
 
 o.list = true
-opt.listchars = { tab = "  ", trail = "·", nbsp = "+" }
+-- leadmultispace draws the indent guide; its width is kept in sync with the
+-- buffer's indent by the indent_guide autocmd.
+opt.listchars = { tab = "│ ", leadmultispace = "│ ", trail = "·", nbsp = "+" }
 
 -- Indentation
 o.expandtab = true
@@ -44,7 +47,7 @@ o.autowriteall = true
 o.splitright = true
 o.splitbelow = true
 
--- Folding (indent-based, all open by default)
+-- Folding
 o.foldmethod = "indent"
 o.foldlevel = 99
 o.foldlevelstart = 99

@@ -1,10 +1,8 @@
 local devicons = require "nvim-web-devicons"
 devicons.setup {}
 
--- Catppuccin Macchiato.
 require("catppuccin").setup {
   flavour = "macchiato",
-  -- No italics anywhere (keeps the upright look used by the rest of this config).
   no_italic = true,
   integrations = {
     blink_cmp = true,
@@ -19,13 +17,10 @@ require("catppuccin").setup {
   },
 }
 
--- Per-icon highlight groups re-based onto the tab/status backgrounds; cleared on
--- colorscheme change so the colors stay correct.
+-- Per-icon highlight cache, cleared on colorscheme change.
 local icon_hl_cache = {}
 
--- Mode table: display name + which palette color drives the mode segment, plus a
--- stable `key` used to name the per-mode highlight groups (several Vim modes share
--- one color/key, e.g. all the visual variants).
+-- Mode -> { display name, color key }.
 local modes = setmetatable({
   ["n"] = { "NORMAL", "n" },
   ["i"] = { "INSERT", "i" },
@@ -43,51 +38,41 @@ local modes = setmetatable({
   end,
 })
 
--- Palette color per mode key.
 local mode_colors = { n = "blue", i = "green", v = "mauve", c = "peach", r = "red", t = "teal" }
 
--- Build all statusline highlight groups from the active Catppuccin palette so the
--- bar tracks the colorscheme (rerun on every ColorScheme via tweak_highlights).
+-- Build statusline highlights from the active palette (rerun on ColorScheme).
 local function setup_statusline_hl()
   local p = require("catppuccin.palettes").get_palette()
-  local b_bg = p.surface0 -- file / filetype segment background
-  local c_bg = p.mantle -- middle (git, diagnostics) background
+  local b_bg = p.surface0 -- file / filetype segment
+  local c_bg = p.mantle -- middle (git, diagnostics)
 
-  -- Fill / middle section.
   vim.api.nvim_set_hl(0, "StatusLine", { fg = p.subtext0, bg = c_bg })
   vim.api.nvim_set_hl(0, "StB", { fg = p.text, bg = b_bg, bold = true })
   vim.api.nvim_set_hl(0, "StGit", { fg = p.mauve, bg = c_bg, bold = true })
-  -- Separator glyph between the b-section and the middle (same colors both sides).
   vim.api.nvim_set_hl(0, "StSep", { fg = b_bg, bg = c_bg })
 
-  -- Diagnostics rendered as a badge on the b-section (surface0) so the counts read
-  -- as a defined widget rather than floating text on the bar.
   vim.api.nvim_set_hl(0, "StDiagError", { fg = p.red, bg = b_bg, bold = true })
   vim.api.nvim_set_hl(0, "StDiagWarn", { fg = p.yellow, bg = b_bg, bold = true })
   vim.api.nvim_set_hl(0, "StDiagInfo", { fg = p.sky, bg = b_bg, bold = true })
   vim.api.nvim_set_hl(0, "StDiagHint", { fg = p.teal, bg = b_bg, bold = true })
 
-  -- Per-mode segment + its separator (separator color pair is shared by both ends).
   for key, colname in pairs(mode_colors) do
     local col = p[colname]
     vim.api.nvim_set_hl(0, "StMode_" .. key, { fg = p.crust, bg = col, bold = true })
     vim.api.nvim_set_hl(0, "StModeSep_" .. key, { fg = col, bg = b_bg })
   end
 
-  -- Inline diagnostics: Catppuccin dims the virtual text; use full severity colors
-  -- so they read clearly against the editor background.
+  -- Full severity colors for inline diagnostics (Catppuccin dims them by default).
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = p.red, bold = true })
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { fg = p.yellow, bold = true })
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { fg = p.sky, bold = true })
   vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { fg = p.teal, bold = true })
 
-  -- Current-line git blame: dim, muted blue-grey (matches the subtle NonText-style
-  -- blame used in the NvChad config). Sits clearly below the brighter comment color
-  -- (overlay2) without being as washed-out as the gitsigns default.
+  -- Current-line git blame: dim blue-grey.
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = p.overlay0, italic = false })
 end
 
--- Strip italics from every highlight group, then refresh the bar / active-tab text.
+-- Strip italics everywhere, then refresh the bar / active-tab text.
 local function tweak_highlights()
   for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
     if hl.italic then
@@ -98,15 +83,14 @@ local function tweak_highlights()
 
   setup_statusline_hl()
 
-  -- Active buffer in the tabline: bright white and bold.
+  -- Active tab: bright white, bold.
   local sel = vim.api.nvim_get_hl(0, { name = "TabLineSel", link = false })
   vim.api.nvim_set_hl(0, "TabLineSel", { fg = 0xFFFFFF, bg = sel.bg, bold = true })
 
   icon_hl_cache = {}
 end
 
--- Render a devicon keeping its own color but adopting `base`'s background so it
--- blends into the surrounding tab/status segment. Returns a "%#group#icon" chunk.
+-- Devicon in its own fg over `base`'s bg. Returns a "%#group#icon" chunk.
 local function colored_icon(icon, icon_hl, base)
   if not icon or icon == "" then
     return ""
@@ -131,10 +115,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.cmd.colorscheme "catppuccin-macchiato"
 tweak_highlights()
 
--- Native statusline (single global statusline via laststatus=3).
--- Powerline separators (require a Nerd Font, already used for devicons).
-local SEP_R = "" -- right-pointing wedge (light -> dark)
-local SEP_L = "" -- left-pointing wedge (dark -> light)
+-- Statusline. Powerline separators (need a Nerd Font).
+local SEP_R = "" -- light -> dark
+local SEP_L = "" -- dark -> light
 
 function _G.__statusline()
   local parts = {}
@@ -143,7 +126,7 @@ function _G.__statusline()
   local mode_grp = "%#StMode_" .. key .. "#"
   local sep_grp = "%#StModeSep_" .. key .. "#"
 
-  -- Left: mode block -> file block -> git.
+  -- Left: mode, file, git.
   parts[#parts + 1] = mode_grp .. "  " .. m[1] .. " "
   parts[#parts + 1] = sep_grp .. SEP_R
 
@@ -159,8 +142,7 @@ function _G.__statusline()
 
   parts[#parts + 1] = "%#StatusLine#%="
 
-  -- Right: [ diagnostics  filetype ] badge -> position block. The single SEP_L opens
-  -- the surface0 badge; everything up to the mode separator shares that background.
+  -- Right: diagnostics, filetype, position.
   parts[#parts + 1] = "%#StSep#" .. SEP_L
 
   local levels = {
@@ -189,7 +171,7 @@ end
 
 vim.o.statusline = "%!v:lua.__statusline()"
 
--- Native tabline listing buffers (<Tab>/<S-Tab> cycle buffers).
+-- Tabline listing buffers.
 function _G.__tabline()
   local s = ""
   local current = vim.api.nvim_get_current_buf()

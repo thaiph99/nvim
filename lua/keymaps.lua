@@ -17,7 +17,7 @@ end, { desc = "Format buffer" })
 map("n", "<leader>/", "gcc", { desc = "Toggle comment", remap = true })
 map("v", "<leader>/", "gc", { desc = "Toggle comment", remap = true })
 
--- Window navigation (C- and A- variants of h/j/k/l)
+-- Window navigation
 for key, dir in pairs { h = "left", j = "down", k = "up", l = "right" } do
   map("n", "<C-" .. key .. ">", "<C-w>" .. key, { desc = "Window " .. dir })
   map("n", "<A-" .. key .. ">", "<C-w>" .. key, { desc = "Window " .. dir })
@@ -74,7 +74,7 @@ for key, fn in pairs { ["<A-l>"] = "Accept", ["<A-k>"] = "AcceptWord", ["<A-j>"]
   end, { desc = "Copilot " .. fn, noremap = true, silent = true })
 end
 
--- Telescope: pick(name, opts) returns a handler that calls that builtin picker.
+-- Telescope
 local function pick(name, opts)
   return function()
     require("telescope.builtin")[name](opts)
@@ -95,7 +95,7 @@ map("n", "<leader>cm", pick "git_commits", { desc = "Git commits" })
 map("n", "<leader>gt", pick "git_status", { desc = "Git status" })
 map("n", "<leader>fr", pick "resume", { desc = "Resume last picker" })
 
--- Telescope seeded with the current visual selection as the query.
+-- Telescope seeded with the visual selection.
 local function pick_selection(name, opts)
   return function()
     local lines = vim.fn.getregion(vim.fn.getpos "v", vim.fn.getpos ".", { type = vim.fn.mode() })
