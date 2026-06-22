@@ -40,7 +40,7 @@ require("nvim-tree").setup {
   view = { width = 35 },
   renderer = {
     root_folder_label = ":t",
-    highlight_git = true,
+    highlight_git = "all",
     indent_markers = { enable = true },
   },
   filters = { custom = { "^.git$" } },

@@ -70,6 +70,13 @@ local function setup_statusline_hl()
 
   -- Current-line git blame: dim blue-grey.
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = p.overlay0, italic = false })
+
+  -- NvimTree git status hightlights.
+  vim.api.nvim_set_hl(0, "NvimTreeGitNewIcon", { fg = p.green })
+  vim.api.nvim_set_hl(0, "NvimTreeGitStagedIcon", { fg = p.teal })
+  vim.api.nvim_set_hl(0, "NvimTreeGitDirtyIcon", { fg = p.yellow })
+  vim.api.nvim_set_hl(0, "NvimTreeGitRenamedIcon", { fg = p.peach })
+  vim.api.nvim_set_hl(0, "NvimTreeGitDeletedIcon", { fg = p.red })
 end
 
 -- Strip italics everywhere, then refresh the bar / active-tab text.
