@@ -120,6 +120,44 @@ tweak_highlights()
 local SEP_R = "" -- light -> dark
 local SEP_L = "" -- dark -> light
 
+-- Path relative to cwd, falling back to ~ form.
+local function normalize_path(path)
+  local normalized = path:gsub("\\", "/")
+  local cwd = vim.uv.cwd()
+  if cwd then
+    local prefix = cwd:gsub("\\", "/"):gsub("/$", "") .. "/"
+    if normalized:sub(1, #prefix) == prefix then
+      return normalized:sub(#prefix + 1)
+    end
+  end
+  return vim.fn.fnamemodify(normalized, ":~"):gsub("^%./", "")
+end
+
+-- Keep as many trailing path segments as fit in max_len, ".../"-prefixed.
+local function shorten_with_ellipsis(path, max_len)
+  if #path <= max_len then
+    return path
+  end
+
+  local parts = vim.split(path, "/", { trimempty = true })
+  if #parts == 0 then
+    return path
+  end
+
+  local keep, used = {}, 4 -- ".../"
+  for i = #parts, 1, -1 do
+    local part = parts[i]
+    local extra = #keep > 0 and 1 or 0
+    if used + #part + extra > max_len then
+      break
+    end
+    table.insert(keep, 1, part)
+    used = used + #part + extra
+  end
+
+  return ".../" .. table.concat(keep, "/")
+end
+
 function _G.__statusline()
   local parts = {}
   local m = modes[vim.fn.mode()]
@@ -133,7 +171,12 @@ function _G.__statusline()
 
   local name = vim.api.nvim_buf_get_name(0)
   local ficon, ficon_hl = devicons.get_icon(vim.fn.fnamemodify(name, ":t"), nil, { default = true })
-  parts[#parts + 1] = "%#StB# " .. colored_icon(ficon, ficon_hl, "StB") .. "%#StB# %t %m%r"
+  local fpath = "[No Name]"
+  if name ~= "" then
+    local max_len = math.max(25, math.floor(vim.o.columns * 0.45))
+    fpath = shorten_with_ellipsis(normalize_path(name), max_len):gsub("%%", "%%%%")
+  end
+  parts[#parts + 1] = "%#StB# " .. colored_icon(ficon, ficon_hl, "StB") .. "%#StB# " .. fpath .. " %m%r"
   parts[#parts + 1] = "%#StSep#" .. SEP_R
 
   local head = vim.b.gitsigns_head
