@@ -1,5 +1,8 @@
 local map = vim.keymap.set
 
+-- Disable space in normal, visual, and select modes
+map({ "n", "v", "x" }, "<Space>", "<Nop>", { silent = true })
+
 -- General
 map("i", "jk", "<ESC>", { desc = "Escape insert mode" })
 map("n", "<Esc>", "<cmd>noh<cr>", { desc = "Clear search highlights" })
@@ -30,7 +33,8 @@ map({ "n", "v", "x" }, "<A-u>", "<C-u>", { desc = "Page up" })
 map("n", "<A-p>", "<C-i>", { desc = "Jump forward" })
 map("n", "<C-p>", "<C-i>", { desc = "Jump forward" })
 map("n", "<A-o>", "<C-o>", { desc = "Jump backward" })
-map("n", "<A-g>", "<C-g>", { desc = "Show path" })
+map("n", "<A-g>", "<cmd>echo expand('%:p')<cr>", { desc = "Show full buffer path" })
+map("n", "<C-g>", "<cmd>echo expand('%:p')<cr>", { desc = "Show full buffer path" })
 
 -- Buffers
 map("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next buffer" })
@@ -108,7 +112,12 @@ end
 
 map("v", "<leader>fw", pick_selection "live_grep", { desc = "Live grep selection", silent = true })
 map("v", "<leader>ff", pick_selection "find_files", { desc = "Find files with selection", silent = true })
-map("v", "<leader>fa", pick_selection("find_files", all_files), { desc = "Find all files with selection", silent = true })
+map(
+  "v",
+  "<leader>fa",
+  pick_selection("find_files", all_files),
+  { desc = "Find all files with selection", silent = true }
+)
 
 -- Quickfix
 map("n", "<leader>qa", function()
