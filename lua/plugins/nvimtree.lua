@@ -38,6 +38,13 @@ end
 require("nvim-tree").setup {
   sort_by = sort_by_natural,
   view = { width = 35 },
+  update_focused_file = {
+    enable = true,
+    update_root = {
+      enable = false,
+      ignore_list = {},
+    },
+  },
   renderer = {
     root_folder_label = ":t",
     highlight_git = "all",
