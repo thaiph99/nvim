@@ -62,12 +62,6 @@ local function setup_statusline_hl()
     vim.api.nvim_set_hl(0, "StModeSep_" .. key, { fg = col, bg = b_bg })
   end
 
-  -- Full severity colors for inline diagnostics (Catppuccin dims them by default).
-  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextError", { fg = p.red, bold = true })
-  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextWarn", { fg = p.yellow, bold = true })
-  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextInfo", { fg = p.sky, bold = true })
-  vim.api.nvim_set_hl(0, "DiagnosticVirtualTextHint", { fg = p.teal, bold = true })
-
   -- Current-line git blame: dim blue-grey.
   vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = p.overlay0, italic = false })
 
