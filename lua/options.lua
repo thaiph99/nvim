@@ -39,7 +39,8 @@ o.ignorecase = true
 o.smartcase = true
 o.undofile = true
 o.swapfile = false
-o.timeoutlen = 400
+o.timeout = true
+o.timeoutlen = 500
 o.updatetime = 2000
 o.autowriteall = true
 
