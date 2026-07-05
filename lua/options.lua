@@ -39,9 +39,9 @@ o.ignorecase = true
 o.smartcase = true
 o.undofile = true
 o.swapfile = false
-o.timeout = true
+o.timeout = false
 o.timeoutlen = 500
-o.updatetime = 2000
+o.updatetime = 250
 o.autowriteall = true
 
 -- Splits
