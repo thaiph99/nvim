@@ -156,7 +156,7 @@ local function toggle_float_term()
     border = "rounded",
   })
   if vim.bo[term.buf].buftype ~= "terminal" then
-    vim.cmd "terminal"
+    vim.fn.jobstart(vim.o.shell, { term = true })
     vim.cmd "startinsert"
   end
 end
