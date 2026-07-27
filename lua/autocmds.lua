@@ -40,26 +40,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Smart indent guide: size leadmultispace to the buffer's indent (shiftwidth,
--- else tabstop) so the guide follows 2- vs 4-space indents automatically.
-local function set_indent_guide()
-  local w = vim.bo.shiftwidth ~= 0 and vim.bo.shiftwidth or vim.bo.tabstop
-  local lc = vim.opt_local.listchars:get()
-  lc.leadmultispace = "│" .. (" "):rep(math.max(w - 1, 0))
-  vim.opt_local.listchars = lc
-end
-
-vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType", "OptionSet" }, {
-  group = augroup "indent_guide",
-  callback = function(ev)
-    local opt = ev.match
-    if ev.event == "OptionSet" and opt ~= "shiftwidth" and opt ~= "tabstop" and opt ~= "expandtab" then
-      return
-    end
-    set_indent_guide()
-  end,
-})
-
 -- Autosave on switch / idle
 local function autosave()
   if vim.bo.buftype == "" and vim.bo.modifiable and not vim.bo.readonly and vim.bo.modified then

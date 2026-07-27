@@ -22,9 +22,7 @@ opt.fillchars = { eob = " " }
 opt.shortmess:append "sI"
 
 o.list = true
--- leadmultispace draws the indent guide; its width is kept in sync with the
--- buffer's indent by the indent_guide autocmd.
-opt.listchars = { tab = "│ ", leadmultispace = "│ ", trail = "·", nbsp = "+" }
+opt.listchars = { tab = "│ ", trail = "·", nbsp = "+" }
 
 -- Indentation
 o.expandtab = true
