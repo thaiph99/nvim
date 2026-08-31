@@ -132,6 +132,7 @@ The statusline and tabline are plain Lua functions in `lua/plugins/ui.lua`
 | `<leader>fm`   | Format buffer (conform)         |
 | `<leader>n`    | Toggle line numbers             |
 | `<leader>rn`   | Toggle relative numbers         |
+| `<A-e>` (insert) | Wrap next word in the pair just typed (autopairs fast wrap) |
 
 ### Windows / motions (Alt-based, as in the old config)
 

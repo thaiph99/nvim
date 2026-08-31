@@ -45,6 +45,7 @@ vim.pack.add({
   { src = gh "folke/which-key.nvim" },
   { src = gh "stevearc/conform.nvim" },
   { src = gh "kylechui/nvim-surround" },
+  { src = gh "windwp/nvim-autopairs" },
   { src = gh "github/copilot.vim" },
   { src = gh "mfussenegger/nvim-dap" },
   { src = gh "rcarriga/nvim-dap-ui" },
